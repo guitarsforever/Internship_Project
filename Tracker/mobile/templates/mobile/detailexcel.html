@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+
+{% block head %}
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+  $("#btnExport").click(function(e) {
+    e.preventDefault();
+
+    //getting data from our table
+    var data_type = 'data:application/vnd.ms-excel';
+    var table_div = document.getElementById('table_wrapper');
+    var table_html = table_div.outerHTML.replace(/ /g, '%20');
+
+    var a = document.createElement('a');
+    a.href = data_type + ', ' + table_html;
+    a.download = 'exported_table_' + Math.floor((Math.random() * 9999999) + 1000000) + '.xls';
+    a.click();
+  });
+});
+
+</script>
+{% endblock %}
+
+{%block content%}
+<ul class="nav navbar-nav">
+    <li><a href="/mobile/">Strategic Projects Dashboard</a></li>
+</ul>
+
+<ul class="nav navbar-nav">
+    <li><a href="/hahe/">HA/HE Dashboard</a></li>
+</ul>
+
+<ul class="nav navbar-nav">
+    <li><a href="/general/">Mobile Dashboard</a></li>
+</ul>
+
+<ul class="nav navbar-nav">
+    <li><a href="/mobile/excel">Back</a></li>
+</ul>
+{% endblock %}
+
+{% block body %}
+
+<div class ="container">
+    <h1>{{devices.Name}} - Detailed Status</h1>
+ <button id="btnExport">Export to xls</button>
+  <br />
+  <br />
+  <div id="table_wrapper">
+    <table border="1" cellspacing="0" bordercolor="#222" id="list">
+      <tbody>
+        <tr class="header">
+							<th>Team</th>
+							<th>POC</th>
+							<th>Tasks</th>
+							<th>Start Date</th>
+							<th>Target Complete Date</th>
+							<th>Actual Date Complete</th>
+                            <th>Status/Details</th>
+							<th>Status</th>
+							<th>Completion Rate</th>
+        </tr>
+
+        {% for i,j,k in zip%}
+        <tr>
+            <th rowspan={{j}}>{{i.TeamName}}</th>
+            <th rowspan={{j}}>{{i.Poc1}} and {{i.Poc2}}</th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            {% if i.completed == 100 %}
+            <th rowspan={{j}}>Completed</th>
+            {% else%}
+            <th rowspan={{j}}>{{ i.Status }}</th>
+            {% endif %}
+            <th rowspan={{j}}>{{i.completed}}</th>
+
+        </tr>
+                    {% for task in k%}
+        <tr>
+            <th> {{task.TaskName}}</th>
+            <th>{{task.StartDate}}</th>
+            <th>{{task.EndDate}}</th>
+            <th>{{task.CompleteDate}}</th>
+            <th>
+                <p>
+                <p>{%for post in task.taskstatus_set.all%}
+                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                    ({{ post.user.get_username}}):</font>
+                {{ post.post }}
+
+                {% endfor %}</p>
+            </th>
+            </tr>
+            {% endfor %}
+        {% endfor %}
+
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+        {% endblock %}

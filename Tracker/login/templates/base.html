@@ -1,0 +1,68 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<!--<style>-->
+    <!--body {-->
+        <!--{% load static %}-->
+        <!--background: url('{% static "img/c.jpg" %}') no-repeat center center fixed;-->
+        <!-- -webkit-background-size: cover;-->
+        <!--background-size: cover;-->
+    <!--}-->
+<!--</style>-->
+<head>
+    <link rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+      crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
+    {% load static %}
+    {% block head %}
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% endblock %}
+</head>
+<body>
+    <br>
+      <nav class="navbar navbar-toggleable-md navbar-default bg-faded">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+              {% if user.is_authenticated %}
+              <a  href="/hahe/homepage">
+                <img src="https://publicfiles.mmw.ag/mmw/files/SAMSUNG/logo_samsung.jpg" width="150" class="d-inline-block" alt=""></a>
+              {% else %}
+            <a  href="/">
+                <img src="https://publicfiles.mmw.ag/mmw/files/SAMSUNG/logo_samsung.jpg" width="150" class="d-inline-block" alt=""></a>
+              {% endif %}
+          </div>
+          <div id="navbar" class="navbar-collapse collapse">
+                {% if user.is_authenticated %}
+
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a class="btn btn-secondary" href="/login/logout">Log out</a></li>
+                </ul>
+              {% block content%} {% endblock %}
+
+                {% else %}
+                <ul class="nav navbar-nav">
+                    <li><a href="/admin">ADMIN</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                  <li><a href="/login/auth">Login</a></li>
+                  <li><a href="/login/register">Register</a></li>
+                </ul>
+                {% endif %}
+          </div><!--/.nav-collapse -->
+        </div><!--/.container-fluid -->
+      </nav>
+    {% block body %}
+    {% endblock %}
+</body>
+
+</html>

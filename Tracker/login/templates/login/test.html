@@ -1,0 +1,202 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+{% block head %}
+<!--<link rel="stylesheet" href="{% static 'css/test.css' %}">-->
+<!--<link rel="stylesheet"-->
+      <!--href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.0/css/bootstrap-datepicker.css">-->
+<!--<link rel="stylesheet"-->
+      <!--href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.0/css/bootstrap-datepicker.min.css">-->
+<!--<script src="{% static 'js/moment.min.js' %}"></script>-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.0/js/bootstrap-datepicker.js"></script>-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.0/js/bootstrap-datepicker.min.js"></script>-->
+
+<style>
+
+  body {
+  font-family: "Open Sans", "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.5em;
+  font-weight: 400;
+}
+
+p, span, a, ul, li, button {
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+}
+
+strong {
+  font-weight: 600;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Open Sans", "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.5em;
+  font-weight: 300;
+}
+
+strong {
+  font-weight: 400;
+}
+
+.tile {
+  width: 100%;
+  display: inline-block;
+  box-sizing: border-box;
+  background: #fff;
+  padding: 20px;
+  margin-bottom: 30px;
+}
+.tile .title {
+  margin-top: 0px;
+}
+.tile.purple, .tile.blue, .tile.red, .tile.orange, .tile.green {
+  color: #fff;
+  cursor: pointer;
+}
+.tile.purple {
+  background: #5133ab;
+}
+.tile.purple:hover {
+  background: #3e2784;
+}
+.tile.red {
+  background: #ac193d;
+}
+.tile.red:hover {
+  background: #7f132d;
+}
+.tile.green {
+  background: #00a600;
+}
+.tile.green:hover {
+  background: #007300;
+}
+.tile.blue {
+  background: #2672ec;
+}
+.tile.blue:hover {
+  background: #125acd;
+}
+.tile.orange {
+  background: #dc572e;
+}
+.tile.orange:hover {
+  background: #b8431f;
+}
+
+
+</style>
+
+{% endblock %}
+{% block content%}
+<ul class="nav navbar-nav">
+  <li><a href="/login/summary">HA/HE</a></li>
+</ul>
+<ul class="nav navbar-nav">
+    <li><a href="/general/">Mobile</a></li>
+</ul>
+{% endblock%}
+
+{% block body %}
+
+
+<div class="container">
+<h2 align="center">Overall Product Completion %</h2>
+<div class="progress">
+  <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40"
+  aria-valuemin="0" aria-valuemax="100" style="width:{{percent}}%">
+    {{percent}}% Complete
+  </div>
+</div>
+	<h1><strong>{{devices.Name}} - Team Status</strong></h1>
+
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="tile purple" onclick="location.href='/login/summary/{{devices.id}}/productreadiness'">
+        <h3 class="title">Product Readiness</h3>
+        <p>{{devices.ProductReadiness.completed}}% Complete </p>
+		<p>POC1: {{devices.ProductReadiness.Poc1}} POC2: {{devices.ProductReadiness.poc2}}</p>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="tile red" onclick="location.href='/login/summary/{{devices.id}}/digitalcontent/'">
+        <h3 class="title">.com - Digital Content</h3>
+        <p>{{devices.DigitalContent.completed}}% Complete</p><p>POC1: {{devices.DigitalContent.Poc1}} POC2: {{devices.DigitalContent.poc2}} </p>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="tile orange" onclick="location.href='/login/summary/{{devices.id}}/videocontent/'">
+        <h3 class="title">.com - Video Content</h3>
+        <p>{{devices.VideoContent.completed}}% Complete</p>
+		  <p>POC1: {{devices.VideoContent.Poc1}} POC2: {{devices.VideoContent.poc2}}</p>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="tile green" onclick="location.href='/login/summary/{{devices.id}}/callcentertraining/'">
+        <h3 class="title">Call Center Training</h3>
+        <p>{{devices.CallCenterTraining.completed}}% Complete</p><p>POC1: {{devices.CallCenterTraining.Poc1}} POC2: {{devices.CallCenterTraining.poc2}}</p>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="tile blue" onclick="location.href='/login/summary/{{devices.id}}/callcenteroperations/'">
+        <h3 class="title">Call Center Operations</h3>
+        <p>{{devices.CallCenterOpertaions.completed}}% Complete</p><p>POC1: {{devices.CallCenterOpertaions.Poc1}} POC2: {{devices.CallCenterOpertaions.poc2}}</p>
+      </div>
+    </div>
+	  <div class="col-sm-4">
+      <div class="tile purple" onclick="location.href='/login/summary/{{devices.id}}/productsupport/'">
+        <h3 class="title">Product Support</h3>
+        <p>{{devices.ProductSupport.completed}}% Complete</p><p>POC1: {{devices.ProductSupport.Poc1}} POC2: {{devices.ProductSupport.poc2}}</p>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="tile red" onclick="location.href='/login/summary/{{devices.id}}/warehouse/'">
+        <h3 class="title">Warehouse QC</h3>
+        <p>{{devices.Warehouse.completed}}% Complete</p><p>POC1: {{devices.Warehouse.Poc1}} POC2: {{devices.Warehouse.poc2}}</p>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="tile orange" onclick="location.href='/login/summary/{{devices.id}}/fieldservice/'">
+        <h3 class="title">Field Service</h3>
+        <p>{{devices.FieldService.completed}}% Complete</p><p>POC1: {{devices.FieldService.Poc1}} POC2: {{devices.FieldService.poc2}}</p>
+      </div>
+    </div>
+	  <div class="col-sm-4">
+      <div class="tile green" onclick="location.href='/login/summary/{{devices.id}}/techsupport/'">
+        <h3 class="title">Tech Support</h3>
+        <p>{{devices.TechSupport.completed}}% Complete</p><p>POC1: {{devices.TechSupport.Poc1}} POC2: {{devices.TechSupport.poc2}}</p>
+      </div>
+    </div>
+  </div>
+	  <div class="row">
+    <div class="col-sm-4">
+      <div class="tile blue" onclick="location.href='/login/summary/{{devices.id}}/servicemarketing/'">
+        <h3 class="title">Service Marketing</h3>
+        <p>{{devices.ServiceMarketing.completed}}% Complete</p><p>POC1: {{devices.ServiceMarketing.Poc1}} POC2: {{devices.ServiceMarketing.poc2}}</p>
+      </div>
+    </div>
+    <div class="col-sm-4" onclick="location.href='/login/summary/{{devices.id}}/servicetraining/'">
+      <div class="tile purple">
+        <h3 class="title">Service Training</h3>
+        <p>{{devices.ServiceTraining.completed}}% Complete</p><p>POC1: {{devices.ServiceTraining.Poc1}} POC2: {{devices.ServiceTraining.poc2}}</p>
+      </div>
+    </div>
+	  <div class="col-sm-4" onclick="location.href='/login/summary/{{devices.id}}/parts/'">
+      <div class="tile red">
+        <h3 class="title">Parts</h3>
+        <p>{{devices.Parts.completed}}% Complete</p><p>POC1: {{devices.Parts.Poc1}} POC2: {{devices.Parts.poc2}}</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+
+{% block head %}
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedcolumns/3.2.2/css/fixedColumns.dataTables.min.css">
+	<style type="text/css" class="init"> 	</style>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js">
+	</script>
+	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js">
+	</script>
+    <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/fixedcolumns/3.2.2/js/dataTables.fixedColumns.min.js">
+    </script>
+
+	<script type="text/javascript" class="init">
+    $(document).ready(function() {
+	    $('#example').DataTable({
+	    "iDisplayLength": 50
+        });
+    } );
+	</script>
+
+    <style>
+    table {
+        display: block;
+        overflow-x: auto;
+    }
+    </style>
+
+{% endblock %}
+{%block content%}
+{%if perms.mobile.is_strategic %}
+<ul class="nav navbar-nav">
+    <li><a href="/mobile/">Strategic Projects Dashboard</a></li>
+</ul>
+
+<ul class="nav navbar-nav">
+    <li><a href="/hahe/">HA/HE Dashboard</a></li>
+</ul>
+
+<ul class="nav navbar-nav">
+    <li><a href="/general/">Mobile Dashboard</a></li>
+</ul>
+
+<ul class="nav navbar-nav navbar-right">
+    <li><a class="btn btn-secondary" href="/mobile/excel/">EXPORT TO XL</a></li>
+</ul>
+{%if user.is_superuser %}
+
+<ul class="nav navbar-nav">
+    <li><a href="/mobile/defaulttemplate/">Add Device</a></li>
+</ul>
+{% endif %}
+{% endif %}
+{% endblock %}
+
+{% block body%}
+
+ <div class = "container-fluid">
+     {% if announcement.post %}
+	  <div class="alert alert-info alert-dismissable fade in container-fluid">
+    <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Information:</strong> {{announcement.post}}
+  </div>
+    {% endif%}
+    <h1 align="center">PRODUCT LIST</h1>
+<table id="example" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+					<thead>
+						<tr>
+							<th>Product Description</th>
+							<th>Project</th>
+							<th>Target Launch Date</th>
+							<th>Overall% Ready</th>
+							{% for team in teams%}
+							<th>{{team.TeamName}}</th>
+							{% endfor%}
+                        </tr>
+					</thead>
+
+					<tbody>
+                     {% for Device in Device %}
+                        {% if Device.Archive == False %}
+                        <tr>
+							<td align="center" onclick="location.href='/mobile/{{Device.id}}/'"
+                            style="cursor:pointer">{{Device.ProductDescription}}</td>
+							<td align="center" onclick="location.href='/mobile/{{Device.id}}'"
+                            style="cursor:pointer">{{Device.Name}}</td>
+							<td align="center" onclick="location.href='/mobile/{{Device.id}}'"
+                            style="cursor:pointer">{{Device.LaunchDate|date:"m-d-y"}}</td>
+                            {% if Device.completed == 0 %}
+                            <td align="center" onclick="location.href='/mobile/{{Device.id}}'"
+                            style="cursor:pointer">Not Started</td>
+                            {% else %}
+							<td align="center" onclick="location.href='/mobile/{{Device.id}}'"
+                            style="cursor:pointer">{{Device.completed}}</td>
+                            {% endif %}
+							{% for team in Device.team_set.all%}
+							<td align="center" onclick="location.href='/mobile/teams/{{team.id}}/'"
+                            style="cursor:pointer">
+                                {% if team.completed == 100 %}
+                                <span class="glyphicon glyphicon-thumbs-up" data-toggle="tooltip" data-placement="top" title="Completed" style="color:green" aria-hidden="true"></span>
+                                {% else%}
+                                {% if team.Status == "At Risk" %}
+                                <span class="glyphicon glyphicon-exclamation-sign" style="color:orange" aria-hidden="true"></span>
+                                {% elif team.Status == "Delayed" %}
+                                <span class="glyphicon glyphicon-minus-sign" style="color:red" aria-hidden="true"></span>
+                                {% else %}
+                                <span class="glyphicon glyphicon-ok-circle" style="color:blue" aria-hidden="true"></span>
+                                {% endif %}
+                                {% endif %}
+                            </td>
+							{% endfor%}
+
+                        </tr>
+                        {% endif %}
+                    {% endfor%}
+                    </tbody>
+</table>
+ </div>
+
+ <div class="container-fluid">
+    <table class = "table-bordered table-condensed">
+        <tbody>
+        <tr>
+            <td><span class="glyphicon glyphicon-thumbs-up" data-toggle="tooltip" data-placement="top" title="Completed" style="color:green" aria-hidden="true"></span></td>
+            <td>Completed</td>
+        </tr>
+        <tr>
+            <td><span class="glyphicon glyphicon-ok-circle" style="color:blue" aria-hidden="true"></span></td>
+            <td>On Time</td>
+        </tr>
+        <tr>
+            <td><span class="glyphicon glyphicon-exclamation-sign" style="color:orange" aria-hidden="true"></span></td>
+            <td>At Risk</td>
+        </tr>
+        <tr>
+            <td><span class="glyphicon glyphicon-minus-sign" style="color:red" aria-hidden="true"></span></td>
+            <td>Delayed</td>
+        </tr>
+        </tbody>
+    </table>
+ </div>
+
+{% endblock %}

@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+
+{%block head%}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/data.js"></script>
+<script src="https://code.highcharts.com/modules/drilldown.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+
+{% endblock%}
+
+{%block content%}
+
+{%if perms.mobile.is_strategic %}
+<ul class="nav navbar-nav">
+    <li><a href="/mobile/">Strategic Projects</a></li>
+</ul>
+{% endif %}
+<ul class="nav navbar-nav">
+    <li><a href="/login/summary">HA/HE</a></li>
+</ul>
+
+<ul class="nav navbar-nav">
+    <li><a href="/general/">Mobile</a></li>
+</ul>
+
+<ul class="nav navbar-nav">
+    <li><a href="/others/">Other Projects</a></li>
+</ul>
+{% endblock%}
+
+{% block body %}
+
+<div class="container-fluid" >
+
+
+<div class="btn-group" role="group" aria-label="Basic example">
+  <button type="button" class="btn btn-secondary" onclick="location.href='/login/homepage/HA/'">HA</button>
+  <button type="button" class="btn btn-secondary" onclick="location.href='/login/homepage/HE/'">HE</button>
+  <!--<button type="button" class="btn btn-secondary" >Mobile</button>-->
+</div>
+<h2 align = "center">HE Overall Status</h2>
+<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+    <p></p>
+    <p></p>
+<h2 align = "center">HE Team Status by product</h2>
+
+  <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+      {% for device in Devices%}
+      {% if forloop.counter <= 5 %}
+    <button type="button" class="btn btn-secondary" onclick="location.href='/login/homepage/HE/{{device.id}}/'">{{device.Name}}</button>
+    {% endif%}
+    {%endfor%}
+
+        {% if counter > 5%}
+<div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+  <div class="btn-group" role="group">
+    <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Dropdown
+    </button>
+    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+    {% for device in Devices%}
+    {% if forloop.counter > 5 %}
+      <a class="dropdown-item" onclick="location.href='/login/homepage/HE/{{device.id}}/'">{{device.Name}}</a>
+      {% endif%}
+      {%endfor%}
+    </div>
+  </div>
+</div>
+        {% endif%}
+  </div>
+</div>
+
+<script type="text/javascript">
+    Highcharts.chart('container', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: 'Overall % Readiness HE Products'
+    },
+    subtitle: {
+        text: 'Click the columns to view week over week update'
+    },
+    xAxis: {
+        type: 'category'
+    },
+    yAxis: {
+        title: {
+            text: 'Completion %'
+        }
+
+    },
+    legend: {
+        enabled: false
+    },
+    plotOptions: {
+        series: {
+            borderWidth: 0,
+            dataLabels: {
+                enabled: true,
+                format: '{point.y:.1f}%'
+            }
+        }
+    },
+
+    tooltip: {
+        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+        pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
+    },
+
+    series: [{
+        name: 'Products',
+        colorByPoint: true,
+        data: [
+{% for D in Devices %}
+{%if D.Archive == False %}
+        {
+            name: '{{D.Name}}',
+            y: {{D.completed}},
+            drilldown: '{{D.Name}}'
+        },
+    {%endif%} 
+{% endfor%}
+        ]
+    }],
+    drilldown: {
+        series: [
+{% for D in Devices %}
+{%if D.Archive == False %}
+        {
+            name: '{{D.Name}}',
+            id: '{{D.Name}}',
+            data: [
+            {%for z in D.devicehistory_set.all%}
+                [
+                    'Week #{{z.Created.isocalendar.1}}, {{z.Created|date:"M"}}',
+                    {{z.Completed}}
+                ],
+            {%endfor%} 
+            ]
+        },
+    {%endif%}
+{% endfor%}
+
+        ]
+    }
+});
+</script>
+
+{% endblock %}

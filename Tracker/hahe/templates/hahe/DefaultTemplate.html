@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block head %}
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+<script>
+$(document).ready(function() {
+    $('.datepicker').datepicker();
+});
+</script>
+{% endblock %}
+
+{% block body %}
+<div class = 'container'>
+
+<h3>Hit submit if you want to create a new default HA/HE Project with the following launch date</h3>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form }}
+<button class="btn btn-success" name="Submit" type="submit" &nbsp>Submit</button>
+    </form>
+</div>
+
+{% endblock %}

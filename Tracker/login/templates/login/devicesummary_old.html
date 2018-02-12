@@ -1,0 +1,241 @@
+{% extends 'base.html' %}
+
+{%block head%}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+
+{% endblock%}
+
+{%block content%}
+
+{%if perms.mobile.is_strategic %}
+<ul class="nav navbar-nav">
+    <li><a href="/mobile/">Strategic Projects</a></li>
+</ul>
+{% endif %}
+<ul class="nav navbar-nav">
+    <li><a href="/login/summary">HA/HE</a></li>
+</ul>
+
+<ul class="nav navbar-nav">
+    <li><a href="/general/">Mobile</a></li>
+</ul>
+
+{% endblock%}
+
+{% block body %}
+
+<div class="container-fluid" >
+
+
+<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+    <div class="btn-toolbar" align='center' role="toolbar" aria-label="Toolbar with button groups">
+  <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+      {% for device in Device%}
+      {% if forloop.counter <= 5 %}
+    <button type="button" class="btn btn-secondary" onclick="location.href='/login/homepage/{{device.id}}/'">{{device.Name}}</button>
+    {% endif%}
+    {%endfor%}
+
+        {% if counter > 5%}
+<div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+  <div class="btn-group" role="group">
+    <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Dropdown
+    </button>
+    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+    {% for device in Device%}
+    {% if forloop.counter > 5 %}
+      <a class="dropdown-item" onclick="location.href='/login/homepage/{{device.id}}/'">{{device.Name}}</a>
+      {% endif%}
+      {%endfor%}
+    </div>
+  </div>
+</div>
+        {% endif%}
+  </div>
+</div>
+<div id="container2" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+<div id="container3" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+
+</div>
+
+<script>
+Highcharts.chart('container', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: 'Overall % Readiness'
+    },
+    subtitle: {
+        text: 'Week over week view'
+    },
+    xAxis: {
+        categories: [
+            'Week {{PreviousWeek3}}',
+            'Week {{PreviousWeek2}}',
+            'Week {{PreviousWeek1}}',
+            'Week {{CurrentWeek}}'
+        ],
+        crosshair: true
+    },
+    yAxis: {
+        min: 0,
+        max: 100,
+        title: {
+            text: 'Completion (%)'
+        }
+    },
+    tooltip: {
+        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+            '<td style="padding:0"><b>{point.y:.1f} %</b></td></tr>',
+        footerFormat: '</table>',
+        shared: true,
+        useHTML: true
+    },
+    plotOptions: {
+        column: {
+            pointPadding: 0.2,
+            borderWidth: 0
+        }
+    },
+    series: [{
+        name: '{{array.0}}',
+        data: {{setcompleted1|safe}}
+
+    }, {
+        name: '{{array.1}}',
+        data: [10, 20, 50, 80]
+
+    }, {
+        name: '{{array.2}}',
+        data: [5, 10, 20, 25]
+
+    }, {
+        name: '{{array.3}}',
+        data: [1, 20, 22, 30]
+
+    }, {
+        name: '{{array.4}}',
+        data: [0, 0, 5, 10]
+
+    }, {
+        name: '{{array.5}}',
+        data: [1, 7, 16, 35]
+
+    },]
+});
+
+</script>
+
+
+<script>
+Highcharts.chart('container2', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: '{{SeletedDevice.Name}} Overall % Readiness'
+    },
+    subtitle: {
+        text: 'Week over week view'
+    },
+    xAxis: {
+        categories: {{week|safe}},
+        crosshair: true
+    },
+    yAxis: {
+        min: 0,
+        max: 100,
+        title: {
+            text: 'Completion (%)'
+        }
+    },
+    tooltip: {
+        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+            '<td style="padding:0"><b>{point.y:.1f} %</b></td></tr>',
+        footerFormat: '</table>',
+        shared: true,
+        useHTML: true
+    },
+    plotOptions: {
+        column: {
+            pointPadding: 0.2,
+            borderWidth: 0
+        }
+    },
+    series: [{
+        name: '{{SeletedDevice.Name}}',
+        data: {{setselectedcompleted|safe}}
+
+    },]
+});
+
+</script>
+
+<script>
+Highcharts.chart('container3', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: '{{SeletedDevice.Name}} % Team Readiness'
+    },
+    subtitle: {
+        text: 'Readiness'
+    },
+    xAxis: {
+        categories: [ 
+            'Product Readiness',
+            'Video Content',
+            'Digital Content',
+            'Call Center Training',
+            'Call Center Operations',
+            'Product Support',
+            'Warehouse',
+            'Field Service',
+            'Tech Support',
+            'Service Marketing',
+            'Service Training',
+            'Parts'
+            ],
+        crosshair: true
+    },
+    yAxis: {
+        min: 0,
+        max: 100,
+        title: {
+            text: 'Completion (%)'
+        }
+    },
+    tooltip: {
+        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+            '<td style="padding:0"><b>{point.y:.1f} %</b></td></tr>',
+        footerFormat: '</table>',
+        shared: true,
+        useHTML: true
+    },
+    plotOptions: {
+        column: {
+            pointPadding: 0.2,
+            borderWidth: 0
+        }
+    },
+    series: [{
+        name: 'Week {{CurrentWeek}}',
+        data: {{TeamReadiness|safe}}
+
+    },]
+});
+
+</script>
+{% endblock %}

@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% block head %}
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedcolumns/3.2.2/css/fixedColumns.dataTables.min.css">
+	<style type="text/css" class="init"> 	</style>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js">
+	</script>
+	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js">
+	</script>
+    <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/fixedcolumns/3.2.2/js/dataTables.fixedColumns.min.js">
+    </script>
+
+	<script type="text/javascript" class="init">
+    $(document).ready(function() {
+	    $('#example').DataTable({
+            responsive: true
+        });
+    } );
+	</script>
+
+    <!--<style>-->
+    <!--table {-->
+        <!--display: block;-->
+        <!--overflow-x: auto;-->
+    <!--}-->
+    <!--</style>-->
+
+
+{% endblock %}
+
+{%block content%}
+{%if perms.mobile.is_strategic %}
+<ul class="nav navbar-nav">
+    <li><a href="/mobile/">Strategic Projects Dashboard</a></li>
+</ul>
+{% endif %}
+<ul class="nav navbar-nav">
+    <li><a href="/hahe/">HA/HE Dashboard</a></li>
+</ul>
+
+<ul class="nav navbar-nav">
+    <li><a href="/general/">Mobile Dashboard</a></li>
+</ul>
+{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <h1><strong>{{devices.Name}} - Team Status</strong></h1>
+<table id="example" class="table table-striped table-bordered" width="100%">
+					<thead>
+						<tr>
+							<th>Team Name</th>
+							<th>Point of Contact</th>
+							<th>Completion percent</th>
+                        </tr>
+					</thead>
+					<tfoot>
+						<tr>
+							<th>Team Name</th>
+							<th>Point of Contact</th>
+							<th>Completion percent</th>
+                        </tr>
+					</tfoot>
+					<tbody>
+                     {% for team in teams %}
+                        <tr>
+							<td align="center" onclick="location.href='/mobile/teams/{{team.id}}/'"
+                            style="cursor:pointer">{{team.TeamName}}</td>
+							<td align="center" onclick="location.href='/mobile/teams/{{team.id}}/'"
+                            style="cursor:pointer">{{team.Poc1}} and {{team.Poc2}}</td>
+							<td align="center" onclick="location.href='/mobile/teams/{{team.id}}/'"
+                            style="cursor:pointer">{{team.completed}}</td>
+                        </tr>
+                    {% endfor%}
+                    </tbody>
+</table>
+ </div>
+
+</div>
+
+{% endblock %}

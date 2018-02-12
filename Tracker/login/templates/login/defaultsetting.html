@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block head %}
+
+<script type="text/javascript">
+    function clicked() {
+       if (confirm('Do you want to submit?')) {
+           yourformelement.submit();
+       } else {
+           return false;
+       }
+    }
+    </script>
+{% endblock %}
+
+{% block body %}
+
+<div class = 'container'>
+              {% if messages %}
+            {% for message in messages %}
+    <h2>{{ message }} </h2>
+            {% endfor %}
+          {% endif %}
+<h3>Hit submit if you want to apply default setting for launch date - {{ref.Launch_Date}}</h3>
+    <form action="" method="post">
+        {% csrf_token %}
+<button class="btn btn-success" onclick="clicked();" name="Task1Submit" type="submit" &nbsp>Submit</button>
+    </form>
+</div>
+{% endblock %}

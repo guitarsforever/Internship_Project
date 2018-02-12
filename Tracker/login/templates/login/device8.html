@@ -1,0 +1,1019 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+{% block head %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.0/css/bootstrap-datepicker.css">
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.0/css/bootstrap-datepicker.min.css">
+<script src="{% static 'js/moment.min.js' %}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.0/js/bootstrap-datepicker.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.0/js/bootstrap-datepicker.min.js"></script>
+
+<script>
+$(document).ready(function(){
+    $('.datepicker').datepicker();
+});
+</script>
+
+<script>
+    $(document).ready(function() {
+  $(".search").keyup(function () {
+    var searchTerm = $(".search").val();
+    var listItem = $('.results tbody').children('tr');
+    var searchSplit = searchTerm.replace(/ /g, "'):containsi('")
+
+  $.extend($.expr[':'], {'containsi': function(elem, i, match, array){
+        return (elem.textContent || elem.innerText || '').toLowerCase().indexOf((match[3] || "").toLowerCase()) >= 0;
+    }
+  });
+
+  $(".results tbody tr").not(":containsi('" + searchSplit + "')").each(function(e){
+    $(this).attr('visible','false');
+  });
+
+  $(".results tbody tr:containsi('" + searchSplit + "')").each(function(e){
+    $(this).attr('visible','true');
+  });
+
+  var jobCount = $('.results tbody tr[visible="true"]').length;
+    $('.counter').text(jobCount + ' item');
+
+  if(jobCount == '0') {$('.no-result').show();}
+    else {$('.no-result').hide();}
+		  });
+});
+
+</script>
+
+<style>
+
+.results tr[visible='false'],
+.no-result{
+  display:none;
+}
+
+.results tr[visible='true']{
+  display:table-row;
+}
+
+.counter{
+  padding:8px;
+  color:#ccc;
+}
+</style>
+{% endblock %}
+
+{%block content%}
+                <ul class="nav navbar-nav">
+                    <li><a href="/login/summary">HA/HE</a></li>
+                </ul>
+                <ul class="nav navbar-nav">
+                    <li><a href="/login/summary/{{devices.id}}/">Team Status</a></li>
+                </ul>
+                <ul class="nav navbar-nav">
+                    <li><a href="/login/summary/{{devices.id}}/productreadiness/">Product Readiness</a></li>
+                </ul>
+                <ul class="nav navbar-nav">
+                    <li><a href="/login/summary/{{devices.id}}/videocontent/">Video Content</a></li>
+                </ul>
+                <ul class="nav navbar-nav">
+                    <li><a href="/login/summary/{{devices.id}}/digitalcontent/">Digital Content</a></li>
+                </ul>
+                <ul class="nav navbar-nav">
+                    <li><a href="/login/summary/{{devices.id}}/callcentertraining/">CC Training</a></li>
+                </ul>
+                <ul class="nav navbar-nav">
+                    <li><a href="/login/summary/{{devices.id}}/callcenteroperations/">CC Operation</a></li>
+                </ul>
+                <ul class="nav navbar-nav">
+                    <li><a href="/login/summary/{{devices.id}}/productsupport/">Product Support</a></li>
+                </ul>
+                <ul class="nav navbar-nav">
+                    <li><a href="/login/summary/{{devices.id}}/warehouse/">Ware House</a></li>
+                </ul>
+                <ul class="nav navbar-nav">
+                    <li><a href="/login/summary/{{devices.id}}/techsupport/">Tech Support</a></li>
+                </ul>
+                <ul class="nav navbar-nav">
+                    <li><a href="/login/summary/{{devices.id}}/servicemarketing/">Service Marketing</a></li>
+                </ul>
+                <ul class="nav navbar-nav">
+                    <li><a href="/login/summary/{{devices.id}}/servicetraining/">Service Training</a></li>
+                </ul>
+                <ul class="nav navbar-nav">
+                    <li><a href="/login/summary/{{devices.id}}/parts/">Parts</a></li>
+                </ul>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    {% if devices.FieldService.Task1_alert %}
+    	<div class="alert alert-danger alert-dismissable fade in">
+    <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Delayed!</strong> - {{devices.FieldService.Task1_Name}}!
+    </div>
+    {% endif%}
+    {% if devices.FieldService.Task2_alert %}
+    	<div class="alert alert-danger alert-dismissable fade in">
+    <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Delayed!</strong> - {{devices.FieldService.Task2_Name}}!
+    </div>
+    {% endif%}
+    {% if devices.FieldService.Task3_alert %}
+    	<div class="alert alert-danger alert-dismissable fade in">
+    <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Delayed!</strong> - {{devices.FieldService.Task3_Name}}!
+    </div>
+    {% endif%}
+    {% if devices.FieldService.Task4_alert %}
+    	<div class="alert alert-danger alert-dismissable fade in">
+    <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Delayed!</strong> - {{devices.FieldService.Task4_Name}}!
+    </div>
+    {% endif%}
+    {% if devices.FieldService.Task5_alert %}
+    	<div class="alert alert-danger alert-dismissable fade in">
+    <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Delayed!</strong> - {{devices.FieldService.Task5_Name}}!
+    </div>
+    {% endif%}
+    {% if devices.FieldService.Task6_alert %}
+    	<div class="alert alert-danger alert-dismissable fade in">
+    <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Delayed!</strong> - {{devices.FieldService.Task6_Name}}!
+    </div>
+    {% endif%}
+    {% if devices.FieldService.Task7_alert %}
+    	<div class="alert alert-danger alert-dismissable fade in">
+    <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Delayed!</strong> - {{devices.FieldService.Task7_Name}}!
+    </div>
+    {% endif%}
+    {% if devices.FieldService.Task8_alert %}
+    	<div class="alert alert-danger alert-dismissable fade in">
+    <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Delayed!</strong> - {{devices.FieldService.Task8_Name}}
+    </div>
+    {% endif%}
+    {% if devices.FieldService.Task9_alert %}
+    	<div class="alert alert-danger alert-dismissable fade in">
+    <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Delayed!</strong> - {{devices.FieldService.Task9_Name}}!
+    </div>
+    {% endif%}
+        {% if devices.FieldService.Task10_alert %}
+    	<div class="alert alert-danger alert-dismissable fade in">
+    <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Delayed!</strong> - {{devices.FieldService.Task10_Name}}!
+    </div>
+    {% endif%}
+            {% if Task11_alert %}
+    	<div class="alert alert-danger alert-dismissable fade in">
+    <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Delayed!</strong> - {{devices.FieldService.Task11_Name}}!
+    </div>
+    {% endif%}
+    {% if devices.FieldService.Task12_alert %}
+    	<div class="alert alert-danger alert-dismissable fade in">
+    <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Delayed!</strong> - {{devices.FieldService.Task12_Name}}!
+    </div>
+    {% endif%}
+    {% if devices.FieldService.Task13_alert %}
+    	<div class="alert alert-danger alert-dismissable fade in">
+    <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Delayed!</strong> - {{devices.FieldService.Task13_Name}}!
+    </div>
+    {% endif%}
+    {% if devices.FieldService.Task14_alert %}
+    	<div class="alert alert-danger alert-dismissable fade in">
+    <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Delayed!</strong> - {{devices.FieldService.Task14_Name}}!
+    </div>
+    {% endif%}
+    {% if devices.FieldService.Task15_alert %}
+    	<div class="alert alert-danger alert-dismissable fade in">
+    <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Delayed!</strong> - {{devices.FieldService.Task15_Name}}!
+    </div>
+    {% endif%}
+    {% if devices.FieldService.Task16_alert %}
+    	<div class="alert alert-danger alert-dismissable fade in">
+    <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Delayed!</strong> - {{devices.FieldService.Task16_Name}}!
+    </div>
+    {% endif%}
+    {% if devices.FieldService.Task17_alert %}
+    	<div class="alert alert-danger alert-dismissable fade in">
+    <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Delayed!</strong> - {{devices.FieldService.Task17_Name}}!
+    </div>
+    {% endif%}
+    {% if devices.FieldService.Task18_alert %}
+    	<div class="alert alert-danger alert-dismissable fade in">
+    <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Delayed!</strong> - {{devices.FieldService.Task18_Name}}!
+    </div>
+    {% endif%}
+    {% if devices.FieldService.Task19_alert %}
+    	<div class="alert alert-danger alert-dismissable fade in">
+    <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Delayed!</strong> - {{devices.FieldService.Task19_Name}}!
+    </div>
+    {% endif%}
+        {% if devices.FieldService.Task20_alert %}
+    	<div class="alert alert-danger alert-dismissable fade in">
+    <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Delayed!</strong> - {{devices.FieldService.Task20_Name}}!
+    </div>
+    {% endif%}
+
+	{% if devices.FieldService.Task1_warning %}
+	  <div class="alert alert-warning alert-dismissable fade in">
+    <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>At Risk!</strong> {{devices.FieldService.Task1_Name}} is in less
+          than {{devices.FieldService.Time_Delta_For_Warning}} days!
+  </div>
+    {% endif%}
+    	{% if devices.FieldService.Task2_warning %}
+	  <div class="alert alert-warning alert-dismissable fade in">
+    <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>At Risk!</strong> {{devices.FieldService.Task2_Name}} is in less
+          than {{devices.FieldService.Time_Delta_For_Warning}} days!
+  </div>
+    {% endif%}
+    	{% if devices.FieldService.Task3_warning %}
+	  <div class="alert alert-warning alert-dismissable fade in">
+    <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>At Risk!</strong> {{devices.FieldService.Task3_Name}} is in less
+          than {{devices.FieldService.Time_Delta_For_Warning}} days!
+  </div>
+    {% endif%}
+    	{% if devices.FieldService.Task4_warning %}
+	  <div class="alert alert-warning alert-dismissable fade in">
+    <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>At Risk!</strong> {{devices.FieldService.Task4_Name}} is in less
+          than {{devices.FieldService.Time_Delta_For_Warning}} days!
+  </div>
+    {% endif%}
+    	{% if devices.FieldService.Task5_warning %}
+	  <div class="alert alert-warning alert-dismissable fade in">
+    <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>At Risk!</strong> {{devices.FieldService.Task5_Name}} is in less
+          than {{devices.FieldService.Time_Delta_For_Warning}} days!
+  </div>
+    {% endif%}
+    	{% if devices.FieldService.Task6_warning %}
+	  <div class="alert alert-warning alert-dismissable fade in">
+    <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>At Risk!</strong> {{devices.FieldService.Task6_Name}} is in less
+          than {{devices.FieldService.Time_Delta_For_Warning}} days!
+  </div>
+    {% endif%}
+    	{% if devices.FieldService.Task7_warning %}
+	  <div class="alert alert-warning alert-dismissable fade in">
+    <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>At Risk!</strong> {{devices.FieldService.Task7_Name}} is in less
+          than {{devices.FieldService.Time_Delta_For_Warning}} days!
+  </div>
+    {% endif%}
+    	{% if devices.FieldService.Task8_warning %}
+	  <div class="alert alert-warning alert-dismissable fade in">
+    <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>At Risk!</strong> {{devices.FieldService.Task8_Name}} is in less
+          than {{devices.FieldService.Time_Delta_For_Warning}} days!
+  </div>
+    {% endif%}
+    	{% if devices.FieldService.Task9_warning %}
+	  <div class="alert alert-warning alert-dismissable fade in">
+    <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>At Risk!</strong> {{devices.FieldService.Task9_Name}} is in less
+          than {{devices.FieldService.Time_Delta_For_Warning}} days!
+  </div>
+    {% endif%}
+    	{% if devices.FieldService.Task10_warning %}
+	  <div class="alert alert-warning alert-dismissable fade in">
+    <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>At Risk!</strong> {{devices.FieldService.Task10_Name}} is in less
+          than {{devices.FieldService.Time_Delta_For_Warning}} days!
+  </div>
+    {% endif%}
+    	{% if devices.FieldService.Task11_warning %}
+	  <div class="alert alert-warning alert-dismissable fade in">
+    <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>At Risk!</strong> {{devices.FieldService.Task11_Name}} is in less
+          than {{devices.FieldService.Time_Delta_For_Warning}} days!
+  </div>
+    {% endif%}
+    	{% if devices.FieldService.Task12_warning %}
+	  <div class="alert alert-warning alert-dismissable fade in">
+    <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>At Risk!</strong> {{devices.FieldService.Task12_Name}} is in less
+          than {{devices.FieldService.Time_Delta_For_Warning}} days!
+  </div>
+    {% endif%}
+    	{% if devices.FieldService.Task13_warning %}
+	  <div class="alert alert-warning alert-dismissable fade in">
+    <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>At Risk!</strong> {{devices.FieldService.Task13_Name}} is in less
+          than {{devices.FieldService.Time_Delta_For_Warning}} days!
+  </div>
+    {% endif%}
+    	{% if devices.FieldService.Task14_warning %}
+	  <div class="alert alert-warning alert-dismissable fade in">
+    <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>At Risk!</strong> {{devices.FieldService.Task14_Name}} is in less
+          than {{devices.FieldService.Time_Delta_For_Warning}} days!
+  </div>
+    {% endif%}
+    	{% if devices.FieldService.Task15_warning %}
+	  <div class="alert alert-warning alert-dismissable fade in">
+    <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>At Risk!</strong> {{devices.FieldService.Task15_Name}} is in less
+          than {{devices.FieldService.Time_Delta_For_Warning}} days!
+  </div>
+    {% endif%}
+    	{% if devices.FieldService.Task16_warning %}
+	  <div class="alert alert-warning alert-dismissable fade in">
+    <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>At Risk!</strong> {{devices.FieldService.Task16_Name}} is in less
+          than {{devices.FieldService.Time_Delta_For_Warning}} days!
+  </div>
+    {% endif%}
+    	{% if devices.FieldService.Task17_warning %}
+	  <div class="alert alert-warning alert-dismissable fade in">
+    <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>At Risk!</strong> {{devices.FieldService.Task17_Name}} is in less
+          than {{devices.FieldService.Time_Delta_For_Warning}} days!
+  </div>
+    {% endif%}
+    	{% if devices.FieldService.Task18_warning %}
+	  <div class="alert alert-warning alert-dismissable fade in">
+    <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>At Risk!</strong> {{devices.FieldService.Task18_Name}} is in less
+          than {{devices.FieldService.Time_Delta_For_Warning}} days!
+  </div>
+    {% endif%}
+    	{% if devices.FieldService.Task19_warning %}
+	  <div class="alert alert-warning alert-dismissable fade in">
+    <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>At Risk!</strong> {{devices.FieldService.Task19_Name}} is in less
+          than {{devices.FieldService.Time_Delta_For_Warning}} days!
+  </div>
+    {% endif%}
+    	{% if devices.FieldService.Task20_warning %}
+	  <div class="alert alert-warning alert-dismissable fade in">
+    <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>At Risk!</strong> {{devices.FieldService.Task20_Name}} is in less
+          than {{devices.FieldService.Time_Delta_For_Warning}} days!
+  </div>
+    {% endif%}
+
+</div>
+
+<div class="container">
+<h2 align="center">Completion %</h2>
+<div class="progress">
+  <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40"
+  aria-valuemin="0" aria-valuemax="100" style="width:{{devices.FieldService.completed}}%">
+    {{devices.FieldService.completed}}% Complete
+  </div>
+</div>
+</div>
+<div class="container">
+    <h1>{{devices.Name}} -  Field Service Status</h1>
+        <div class="form-group pull-right">
+    <input type="text" class="search form-control" placeholder="Search Tasks">
+</div>
+<span class="counter pull-right"></span>
+    <table class="table table-striped table-hover table-bordered results">
+        <thead>
+            <tr>
+                <th><h4>Tasks</h4></th>
+                <th><h4>Delayed</h4></th>
+                <th><h4>Due Date</h4></th>
+                <th><h4>Completed Date</h4></th>
+                <th><h4>Status Details</h4></th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th><h4>Tasks</h4></th>
+                <th><h4>Delayed</h4></th>
+                <th><h4>Due Date</h4></th>
+                <th><h4>Completed Date</h4></th>
+                <th><h4>Status Details</h4></th>
+            </tr>
+        </tfoot>
+        <tbody>
+        {%if devices.FieldService.Task1_Name %}
+            <tr>
+                <td><h4>{{devices.FieldService.Task1_Name}}</h4>
+                <h6><font color="#0000cc">{{devices.FieldService.Task1_dependent_task}}</font></h6></td>
+                {%if devices.FieldService.Task1_alert %}
+                <td align="center"><span class="glyphicon glyphicon-minus-sign" style="color:red" aria-hidden="true"></span></td>
+                {%else %}
+                <td></td>
+                {% endif %}
+                <td>20{{devices.FieldService.Task1_End_Date|date:"y-m-d"}}
+                    {%if not devices.FieldService.Task1_complete_date %}
+                    <p>(due in {{Task1_delta.days}} days)</p>
+                    {% endif %}
+                   </td>
+                 <form method="post">
+                     {% csrf_token %}
+                <td>{{ Task1_vc_dateform.Task1_complete_date}}</td>
+                <td >
+                        {{form1.as_p}}
+                        <button class="btn btn-success" name="Task1Submit" type="submit" &nbsp>Submit</button>
+                        {% for post in posts1 %}
+                          <p>{{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}</p>
+                        {% endfor %}
+                    </form>
+                </td>
+
+             </tr>
+        {% endif %}
+        {%if devices.FieldService.Task2_Name %}
+            <tr>
+                <td><h4>{{devices.FieldService.Task2_Name}}</h4>
+                <h6><font color="#0000cc">{{devices.FieldService.Task2_dependent_task}}</font></h6></td>
+                                {%if devices.FieldService.Task2_alert %}
+                <td align="center"><span class="glyphicon glyphicon-minus-sign" style="color:red" aria-hidden="true"></span></td>
+                {%else %}
+                <td></td>
+                {% endif %}
+                <td>20{{devices.FieldService.Task2_End_Date|date:"y-m-d"}}
+                    {%if not devices.FieldService.Task2_complete_date %}
+                    <p>(due in {{Task2_delta.days}} days)</p>
+                    {% endif %}
+                   </td>
+                 <form method="post">
+                     {% csrf_token %}
+                <td>{{ Task2_vc_dateform.Task2_complete_date}}</td>
+                <td >
+                        {{form2.as_p}}
+                        <button class="btn btn-success" name="Task2Submit" type="submit" &nbsp>Submit</button>
+                        {% for post in posts2 %}
+                          <p>{{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}</p>
+                        {% endfor %}
+                    </form>
+                </td>
+
+             </tr>
+        {% endif %}
+        {%if devices.FieldService.Task3_Name %}
+            <tr>
+                <td><h4>{{devices.FieldService.Task3_Name}}</h4>
+                <h6><font color="#0000cc">{{devices.FieldService.Task3_dependent_task}}</font></h6></td>
+                                {%if devices.FieldService.Task3_alert %}
+                <td align="center"><span class="glyphicon glyphicon-minus-sign" style="color:red" aria-hidden="true"></span></td>
+                {%else %}
+                <td></td>
+                {% endif %}
+                <td>20{{devices.FieldService.Task3_End_Date|date:"y-m-d"}}
+                    {%if not devices.FieldService.Task3_complete_date %}
+                    <p>(due in {{Task3_delta.days}} days)</p>
+                    {% endif %}
+                   </td>
+                 <form method="post">
+                     {% csrf_token %}
+                <td>{{ Task3_vc_dateform.Task3_complete_date}}</td>
+                <td >
+                        {{form3.as_p}}
+                        <button class="btn btn-success" name="Task3Submit" type="submit" &nbsp>Submit</button>
+                        {% for post in posts3 %}
+                          <p>{{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}</p>
+                        {% endfor %}
+                    </form>
+                </td>
+
+             </tr>
+        {% endif %}
+                {%if devices.FieldService.Task4_Name %}
+            <tr>
+                <td><h4>{{devices.FieldService.Task4_Name}}</h4>
+                <h6><font color="#0000cc">{{devices.FieldService.Task4_dependent_task}}</font></h6></td>
+                                {%if devices.FieldService.Task4_alert %}
+                <td align="center"><span class="glyphicon glyphicon-minus-sign" style="color:red" aria-hidden="true"></span></td>
+                {%else %}
+                <td></td>
+                {% endif %}
+                <td>20{{devices.FieldService.Task4_End_Date|date:"y-m-d"}}
+                    {%if not devices.FieldService.Task4_complete_date %}
+                    <p>(due in {{Task4_delta.days}} days)</p>
+                    {% endif %}
+                   </td>
+                 <form method="post">
+                     {% csrf_token %}
+                <td>{{ Task4_vc_dateform.Task4_complete_date}}</td>
+                <td >
+                        {{form4.as_p}}
+                        <button class="btn btn-success" name="Task4Submit" type="submit" &nbsp>Submit</button>
+                        {% for post in posts4 %}
+                          <p>{{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}</p>
+                        {% endfor %}
+                    </form>
+                </td>
+
+             </tr>
+        {% endif %}
+                {%if devices.FieldService.Task5_Name %}
+            <tr>
+                <td><h4>{{devices.FieldService.Task5_Name}}</h4>
+                <h6><font color="#0000cc">{{devices.FieldService.Task5_dependent_task}}</font></h6></td>
+                                {%if devices.FieldService.Task5_alert %}
+                <td align="center"><span class="glyphicon glyphicon-minus-sign" style="color:red" aria-hidden="true"></span></td>
+                {%else %}
+                <td></td>
+                {% endif %}
+                <td>20{{devices.FieldService.Task5_End_Date|date:"y-m-d"}}
+                    {%if not devices.FieldService.Task5_complete_date %}
+                    <p>(due in {{Task5_delta.days}} days)</p>
+                    {% endif %}
+                   </td>
+                 <form method="post">
+                     {% csrf_token %}
+                <td>{{ Task5_vc_dateform.Task5_complete_date}}</td>
+                <td >
+                        {{form5.as_p}}
+                        <button class="btn btn-success" name="Task5Submit" type="submit" &nbsp>Submit</button>
+                        {% for post in posts5 %}
+                          <p>{{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}</p>
+                        {% endfor %}
+                    </form>
+                </td>
+
+             </tr>
+        {% endif %}
+                {%if devices.FieldService.Task6_Name %}
+            <tr>
+                <td><h4>{{devices.FieldService.Task6_Name}}</h4>
+                <h6><font color="#0000cc">{{devices.FieldService.Task6_dependent_task}}</font></h6></td>
+                                {%if devices.FieldService.Task6_alert %}
+                <td align="center"><span class="glyphicon glyphicon-minus-sign" style="color:red" aria-hidden="true"></span></td>
+                {%else %}
+                <td></td>
+                {% endif %}
+                <td>20{{devices.FieldService.Task6_End_Date|date:"y-m-d"}}
+                    {%if not devices.FieldService.Task6_complete_date %}
+                    <p>(due in {{Task6_delta.days}} days)</p>
+                    {% endif %}
+                   </td>
+                 <form method="post">
+                     {% csrf_token %}
+                <td>{{ Task6_vc_dateform.Task6_complete_date}}</td>
+                <td >
+                        {{form6.as_p}}
+                        <button class="btn btn-success" name="Task6Submit" type="submit" &nbsp>Submit</button>
+                        {% for post in posts6 %}
+                          <p>{{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}</p>
+                        {% endfor %}
+                    </form>
+                </td>
+
+             </tr>
+        {% endif %}
+                {%if devices.FieldService.Task7_Name %}
+            <tr>
+                <td><h4>{{devices.FieldService.Task7_Name}}</h4>
+                <h6><font color="#0000cc">{{devices.FieldService.Task7_dependent_task}}</font></h6></td>
+                                {%if devices.FieldService.Task7_alert %}
+                <td align="center"><span class="glyphicon glyphicon-minus-sign" style="color:red" aria-hidden="true"></span></td>
+                {%else %}
+                <td></td>
+                {% endif %}
+                <td>20{{devices.FieldService.Task7_End_Date|date:"y-m-d"}}
+                    {%if not devices.FieldService.Task7_complete_date %}
+                    <p>(due in {{Task7_delta.days}} days)</p>
+                    {% endif %}
+                   </td>
+                 <form method="post">
+                     {% csrf_token %}
+                <td>{{ Task7_vc_dateform.Task7_complete_date}}</td>
+                <td >
+                        {{form7.as_p}}
+                        <button class="btn btn-success" name="Task7Submit" type="submit" &nbsp>Submit</button>
+                        {% for post in posts7 %}
+                          <p>{{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}</p>
+                        {% endfor %}
+                    </form>
+                </td>
+
+             </tr>
+        {% endif %}
+                {%if devices.FieldService.Task8_Name %}
+            <tr>
+                <td><h4>{{devices.FieldService.Task8_Name}}</h4>
+                <h6><font color="#0000cc">{{devices.FieldService.Task8_dependent_task}}</font></h6></td>
+                                {%if devices.FieldService.Task8_alert %}
+                <td align="center"><span class="glyphicon glyphicon-minus-sign" style="color:red" aria-hidden="true"></span></td>
+                {%else %}
+                <td></td>
+                {% endif %}
+                <td>20{{devices.FieldService.Task8_End_Date|date:"y-m-d"}}
+                    {%if not devices.FieldService.Task8_complete_date %}
+                    <p>(due in {{Task8_delta.days}} days)</p>
+                    {% endif %}
+                   </td>
+                 <form method="post">
+                     {% csrf_token %}
+                <td>{{ Task8_vc_dateform.Task8_complete_date}}</td>
+                <td >
+                        {{form8.as_p}}
+                        <button class="btn btn-success" name="Task8Submit" type="submit" &nbsp>Submit</button>
+                        {% for post in posts8 %}
+                          <p>{{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}</p>
+                        {% endfor %}
+                    </form>
+                </td>
+
+             </tr>
+        {% endif %}
+                {%if devices.FieldService.Task9_Name %}
+            <tr>
+                <td><h4>{{devices.FieldService.Task9_Name}}</h4>
+                <h6><font color="#0000cc">{{devices.FieldService.Task9_dependent_task}}</font></h6></td>
+                                {%if devices.FieldService.Task9_alert %}
+                <td align="center"><span class="glyphicon glyphicon-minus-sign" style="color:red" aria-hidden="true"></span></td>
+                {%else %}
+                <td></td>
+                {% endif %}
+                <td>20{{devices.FieldService.Task9_End_Date|date:"y-m-d"}}
+                    {%if not devices.FieldService.Task9_complete_date %}
+                    <p>(due in {{Task9_delta.days}} days)</p>
+                    {% endif %}
+                   </td>
+                 <form method="post">
+                     {% csrf_token %}
+                <td>{{ Task9_vc_dateform.Task9_complete_date}}</td>
+                <td >
+                        {{form9.as_p}}
+                        <button class="btn btn-success" name="Task9Submit" type="submit" &nbsp>Submit</button>
+                        {% for post in posts9 %}
+                          <p>{{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}</p>
+                        {% endfor %}
+                    </form>
+                </td>
+
+             </tr>
+        {% endif %}
+                {%if devices.FieldService.Task10_Name %}
+            <tr>
+                <td><h4>{{devices.FieldService.Task10_Name}}</h4>
+                <h6><font color="#0000cc">{{devices.FieldService.Task10_dependent_task}}</font></h6></td>
+                                {%if devices.FieldService.Task10_alert %}
+                <td align="center"><span class="glyphicon glyphicon-minus-sign" style="color:red" aria-hidden="true"></span></td>
+                {%else %}
+                <td></td>
+                {% endif %}
+                <td>20{{devices.FieldService.Task10_End_Date|date:"y-m-d"}}
+                    {%if not devices.FieldService.Task10_complete_date %}
+                    <p>(due in {{Task10_delta.days}} days)</p>
+                    {% endif %}
+                   </td>
+                 <form method="post">
+                     {% csrf_token %}
+                <td>{{ Task10_vc_dateform.Task10_complete_date}}</td>
+                <td >
+                        {{form10.as_p}}
+                        <button class="btn btn-success" name="Task10Submit" type="submit" &nbsp>Submit</button>
+                        {% for post in posts10 %}
+                          <p>{{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}</p>
+                        {% endfor %}
+                    </form>
+                </td>
+
+             </tr>
+        {% endif %}
+                {%if devices.FieldService.Task11_Name %}
+            <tr>
+                <td><h4>{{devices.FieldService.Task11_Name}}</h4>
+                <h6><font color="#0000cc">{{devices.FieldService.Task11_dependent_task}}</font></h6></td>
+                                {%if devices.FieldService.Task11_alert %}
+                <td align="center"><span class="glyphicon glyphicon-minus-sign" style="color:red" aria-hidden="true"></span></td>
+                {%else %}
+                <td></td>
+                {% endif %}
+                <td>20{{devices.FieldService.Task11_End_Date|date:"y-m-d"}}
+                    {%if not devices.FieldService.Task11_complete_date %}
+                    <p>(due in {{Task11_delta.days}} days)</p>
+                    {% endif %}
+                   </td>
+                 <form method="post">
+                     {% csrf_token %}
+                <td>{{ Task11_vc_dateform.Task11_complete_date}}</td>
+                <td >
+                        {{form11.as_p}}
+                        <button class="btn btn-success" name="Task11Submit" type="submit" &nbsp>Submit</button>
+                        {% for post in posts11 %}
+                          <p>{{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}</p>
+                        {% endfor %}
+                    </form>
+                </td>
+
+             </tr>
+        {% endif %}
+                {%if devices.FieldService.Task12_Name %}
+            <tr>
+                <td><h4>{{devices.FieldService.Task12_Name}}</h4>
+                <h6><font color="#0000cc">{{devices.FieldService.Task12_dependent_task}}</font></h6></td>
+                                {%if devices.FieldService.Task12_alert %}
+                <td align="center"><span class="glyphicon glyphicon-minus-sign" style="color:red" aria-hidden="true"></span></td>
+                {%else %}
+                <td></td>
+                {% endif %}
+                <td>20{{devices.FieldService.Task12_End_Date|date:"y-m-d"}}
+                    {%if not devices.FieldService.Task12_complete_date %}
+                    <p>(due in {{Task12_delta.days}} days)</p>
+                    {% endif %}
+                   </td>
+                 <form method="post">
+                     {% csrf_token %}
+                <td>{{ Task12_vc_dateform.Task12_complete_date}}</td>
+                <td >
+                        {{form12.as_p}}
+                        <button class="btn btn-success" name="Task12Submit" type="submit" &nbsp>Submit</button>
+                        {% for post in posts12 %}
+                          <p>{{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}</p>
+                        {% endfor %}
+                    </form>
+                </td>
+
+             </tr>
+        {% endif %}
+                {%if devices.FieldService.Task13_Name %}
+            <tr>
+                <td><h4>{{devices.FieldService.Task13_Name}}</h4>
+                <h6><font color="#0000cc">{{devices.FieldService.Task13_dependent_task}}</font></h6></td>
+                                {%if devices.FieldService.Task13_alert %}
+                <td align="center"><span class="glyphicon glyphicon-minus-sign" style="color:red" aria-hidden="true"></span></td>
+                {%else %}
+                <td></td>
+                {% endif %}
+                <td>20{{devices.FieldService.Task13_End_Date|date:"y-m-d"}}
+                    {%if not devices.FieldService.Task13_complete_date %}
+                    <p>(due in {{Task13_delta.days}} days)</p>
+                    {% endif %}
+                   </td>
+                 <form method="post">
+                     {% csrf_token %}
+                <td>{{ Task13_vc_dateform.Task13_complete_date}}</td>
+                <td >
+                        {{form13.as_p}}
+                        <button class="btn btn-success" name="Task13Submit" type="submit" &nbsp>Submit</button>
+                        {% for post in posts13 %}
+                          <p>{{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}</p>
+                        {% endfor %}
+                    </form>
+                </td>
+
+             </tr>
+        {% endif %}
+                {%if devices.FieldService.Task14_Name %}
+            <tr>
+                <td><h4>{{devices.FieldService.Task14_Name}}</h4>
+                <h6><font color="#0000cc">{{devices.FieldService.Task14_dependent_task}}</font></h6></td>
+                                {%if devices.FieldService.Task14_alert %}
+                <td align="center"><span class="glyphicon glyphicon-minus-sign" style="color:red" aria-hidden="true"></span></td>
+                {%else %}
+                <td></td>
+                {% endif %}
+                <td>20{{devices.FieldService.Task14_End_Date|date:"y-m-d"}}
+                    {%if not devices.FieldService.Task14_complete_date %}
+                    <p>(due in {{Task14_delta.days}} days)</p>
+                    {% endif %}
+                   </td>
+                 <form method="post">
+                     {% csrf_token %}
+                <td>{{ Task14_vc_dateform.Task14_complete_date}}</td>
+                <td >
+                        {{form14.as_p}}
+                        <button class="btn btn-success" name="Task14Submit" type="submit" &nbsp>Submit</button>
+                        {% for post in posts14 %}
+                          <p>{{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}</p>
+                        {% endfor %}
+                    </form>
+                </td>
+
+             </tr>
+        {% endif %}
+                {%if devices.FieldService.Task15_Name %}
+            <tr>
+                <td><h4>{{devices.FieldService.Task15_Name}}</h4>
+                <h6><font color="#0000cc">{{devices.FieldService.Task15_dependent_task}}</font></h6></td>
+                                {%if devices.FieldService.Task15_alert %}
+                <td align="center"><span class="glyphicon glyphicon-minus-sign" style="color:red" aria-hidden="true"></span></td>
+                {%else %}
+                <td></td>
+                {% endif %}
+                <td>20{{devices.FieldService.Task15_End_Date|date:"y-m-d"}}
+                    {%if not devices.FieldService.Task15_complete_date %}
+                    <p>(due in {{Task15_delta.days}} days)</p>
+                    {% endif %}
+                   </td>
+                 <form method="post">
+                     {% csrf_token %}
+                <td>{{ Task15_vc_dateform.Task15_complete_date}}</td>
+                <td >
+                        {{form15.as_p}}
+                        <button class="btn btn-success" name="Task15Submit" type="submit" &nbsp>Submit</button>
+                        {% for post in posts15 %}
+                          <p>{{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}</p>
+                        {% endfor %}
+                    </form>
+                </td>
+
+             </tr>
+        {% endif %}
+                {%if devices.FieldService.Task16_Name %}
+            <tr>
+                <td><h4>{{devices.FieldService.Task16_Name}}</h4>
+                <h6><font color="#0000cc">{{devices.FieldService.Task16_dependent_task}}</font></h6></td>
+                                {%if devices.FieldService.Task16_alert %}
+                <td align="center"><span class="glyphicon glyphicon-minus-sign" style="color:red" aria-hidden="true"></span></td>
+                {%else %}
+                <td></td>
+                {% endif %}
+                <td>20{{devices.FieldService.Task16_End_Date|date:"y-m-d"}}
+                    {%if not devices.FieldService.Task16_complete_date %}
+                    <p>(due in {{Task16_delta.days}} days)</p>
+                    {% endif %}
+                   </td>
+                 <form method="post">
+                     {% csrf_token %}
+                <td>{{ Task16_vc_dateform.Task16_complete_date}}</td>
+                <td >
+                        {{form16.as_p}}
+                        <button class="btn btn-success" name="Task16Submit" type="submit" &nbsp>Submit</button>
+                        {% for post in posts16 %}
+                          <p>{{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}</p>
+                        {% endfor %}
+                    </form>
+                </td>
+
+             </tr>
+        {% endif %}
+                {%if devices.FieldService.Task17_Name %}
+            <tr>
+                <td><h4>{{devices.FieldService.Task17_Name}}</h4>
+                <h6><font color="#0000cc">{{devices.FieldService.Task17_dependent_task}}</font></h6></td>
+                                {%if devices.FieldService.Task17_alert %}
+                <td align="center"><span class="glyphicon glyphicon-minus-sign" style="color:red" aria-hidden="true"></span></td>
+                {%else %}
+                <td></td>
+                {% endif %}
+                <td>20{{devices.FieldService.Task17_End_Date|date:"y-m-d"}}
+                    {%if not devices.FieldService.Task17_complete_date %}
+                    <p>(due in {{Task17_delta.days}} days)</p>
+                    {% endif %}
+                   </td>
+                 <form method="post">
+                     {% csrf_token %}
+                <td>{{ Task17_vc_dateform.Task17_complete_date}}</td>
+                <td >
+                        {{form17.as_p}}
+                        <button class="btn btn-success" name="Task17Submit" type="submit" &nbsp>Submit</button>
+                        {% for post in posts17 %}
+                          <p>{{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}</p>
+                        {% endfor %}
+                    </form>
+                </td>
+
+             </tr>
+        {% endif %}
+                {%if devices.FieldService.Task18_Name %}
+            <tr>
+                <td><h4>{{devices.FieldService.Task18_Name}}</h4>
+                <h6><font color="#0000cc">{{devices.FieldService.Task18_dependent_task}}</font></h6></td>
+                                {%if devices.FieldService.Task18_alert %}
+                <td align="center"><span class="glyphicon glyphicon-minus-sign" style="color:red" aria-hidden="true"></span></td>
+                {%else %}
+                <td></td>
+                {% endif %}
+                <td>20{{devices.FieldService.Task18_End_Date|date:"y-m-d"}}
+                    {%if not devices.FieldService.Task18_complete_date %}
+                    <p>(due in {{Task18_delta.days}} days)</p>
+                    {% endif %}
+                   </td>
+                 <form method="post">
+                     {% csrf_token %}
+                <td>{{ Task1_vc_dateform.Task18_complete_date}}</td>
+                <td >
+                        {{form18.as_p}}
+                        <button class="btn btn-success" name="Task18Submit" type="submit" &nbsp>Submit</button>
+                        {% for post in posts18 %}
+                          <p>{{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}</p>
+                        {% endfor %}
+                    </form>
+                </td>
+
+             </tr>
+        {% endif %}
+                {%if devices.FieldService.Task19_Name %}
+            <tr>
+                <td><h4>{{devices.FieldService.Task19_Name}}</h4>
+                <h6><font color="#0000cc">{{devices.FieldService.Task19_dependent_task}}</font></h6></td>
+                                {%if devices.FieldService.Task19_alert %}
+                <td align="center"><span class="glyphicon glyphicon-minus-sign" style="color:red" aria-hidden="true"></span></td>
+                {%else %}
+                <td></td>
+                {% endif %}
+                <td>20{{devices.FieldService.Task19_End_Date|date:"y-m-d"}}
+                    {%if not devices.FieldService.Task19_complete_date %}
+                    <p>(due in {{Task19_delta.days}} days)</p>
+                    {% endif %}
+                   </td>
+                 <form method="post">
+                     {% csrf_token %}
+                <td>{{ Task19_vc_dateform.Task19_complete_date}}</td>
+                <td >
+                        {{form19.as_p}}
+                        <button class="btn btn-success" name="Task19Submit" type="submit" &nbsp>Submit</button>
+                        {% for post in posts19 %}
+                          <p>{{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}</p>
+                        {% endfor %}
+                    </form>
+                </td>
+
+             </tr>
+        {% endif %}
+                {%if devices.FieldService.Task20_Name %}
+            <tr>
+                <td><h4>{{devices.FieldService.Task20_Name}}</h4>
+                <h6><font color="#0000cc">{{devices.FieldService.Task20_dependent_task}}</font></h6></td>
+                                {%if devices.FieldService.Task20_alert %}
+                <td align="center"><span class="glyphicon glyphicon-minus-sign" style="color:red" aria-hidden="true"></span></td>
+                {%else %}
+                <td></td>
+                {% endif %}
+                <td>20{{devices.FieldService.Task20_End_Date|date:"y-m-d"}}
+                    {%if not devices.FieldService.Task20_complete_date %}
+                    <p>(due in {{Task20_delta.days}} days)</p>
+                    {% endif %}
+                   </td>
+                 <form method="post">
+                     {% csrf_token %}
+                <td>{{ Task1_vc_dateform.Task20_complete_date}}</td>
+                <td >
+                        {{form20.as_p}}
+                        <button class="btn btn-success" name="Task20Submit" type="submit" &nbsp>Submit</button>
+                        {% for post in posts20 %}
+                          <p>{{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}</p>
+                        {% endfor %}
+                    </form>
+                </td>
+
+             </tr>
+        {% endif %}
+        </tbody>
+    </table>
+
+</div>
+
+
+{% endblock %}

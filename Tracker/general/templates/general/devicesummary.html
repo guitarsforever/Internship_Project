@@ -1,0 +1,230 @@
+{% extends 'base.html' %}
+
+{%block head%}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/data.js"></script>
+<script src="https://code.highcharts.com/modules/drilldown.js"></script>
+
+
+
+{% endblock%}
+
+{%block content%}
+
+{%if perms.mobile.is_strategic %}
+<ul class="nav navbar-nav">
+    <li><a href="/mobile/">Strategic Projects Dashboard</a></li>
+</ul>
+{% endif %}
+<ul class="nav navbar-nav">
+    <li><a href="/hahe/">HA/HE Dashboard</a></li>
+</ul>
+
+<ul class="nav navbar-nav">
+    <li><a href="/general/">Mobile Dashboard</a></li>
+</ul>
+
+<ul class="nav navbar-nav">
+    <li><a href="/others/">Other Projects Dashboard</a></li>
+</ul>
+
+{% endblock%}
+
+{% block body %}
+
+<div class="container-fluid" >
+<div class="btn-group" role="group" aria-label="Basic example">
+  <button type="button" class="btn btn-secondary" onclick="location.href='/hahe/homepage/HA/'">HA</button>
+  <button type="button" class="btn btn-secondary" onclick="location.href='/hahe/homepage/HE/'">HE</button>
+  <button type="button" class="btn btn-secondary" onclick="location.href='/general/homepage/'">Mobile</button>
+</div>
+
+    <h2 align = "center">Non-Iconic Mobile Overall Status</h2>
+<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+        <p></p>
+    <p></p>
+    <h2 align = "center">Non-Iconic Mobile Team Status by product</h2>
+
+
+  <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+      {% for device in Device%}
+      {% if forloop.counter <= 5 %}
+    <button type="button" class="btn btn-secondary" onclick="location.href='/general/homepage/{{device.id}}/'">{{device.Name}}</button>
+    {% endif%}
+    {%endfor%}
+
+        {% if counter > 5%}
+<div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+  <div class="btn-group" role="group">
+    <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Dropdown
+    </button>
+    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+    {% for device in Device%}
+    {% if forloop.counter > 5 %}
+      <a class="dropdown-item" onclick="location.href='/general/homepage/{{device.id}}/'">{{device.Name}}</a>
+      {% endif%}
+      {%endfor%}
+    </div>
+  </div>
+</div>
+        {% endif%}
+  </div>
+
+
+<div id="container1" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+</div>
+
+<script type="text/javascript">
+    Highcharts.chart('container', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: 'Non-Iconic Mobile Product Readiness'
+    },
+    subtitle: {
+        text: 'Click the columns to view week over week status'
+    },
+    xAxis: {
+        type: 'category'
+    },
+    yAxis: {
+        title: {
+            text: 'Completion %'
+        }
+
+    },
+    legend: {
+        enabled: false
+    },
+    plotOptions: {
+        series: {
+            borderWidth: 0,
+            dataLabels: {
+                enabled: true,
+                format: '{point.y:.1f}%'
+            }
+        }
+    },
+
+    tooltip: {
+        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+        pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
+    },
+
+    series: [{
+        name: 'Products',
+        colorByPoint: true,
+        data: [
+{% for D in Device %}
+  {%if D.Archive == False %}
+        {
+            name: '{{D.Name}}',
+            y: {{D.completed}},
+            drilldown: '{{D.Name}}'
+        },
+  {%endif%}
+{% endfor%}
+        ]
+    }],
+    drilldown: {
+        series: [
+{% for D in Device %}
+{%if D.Archive == False %}
+        {
+            name: '{{D.Name}}',
+            id: '{{D.Name}}',
+            data: [
+            {%for z in D.devicehistory_set.all%}
+                [
+                    'Week #{{z.Created.isocalendar.1}}, {{z.Created|date:"M"}}',
+                    {{z.Completed}}
+                ],
+            {%endfor%}
+            ]
+        },
+  {%endif%}
+{% endfor%}
+
+        ]
+    }
+});
+</script>
+<script type="text/javascript">
+  Highcharts.chart('container1', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: '{{selectedDevice}} Team Status'
+    },
+    xAxis: {
+        categories: {{TeamName|safe}}
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: '% Total Number Of Tasks'
+        },
+        stackLabels: {
+            enabled: true,
+            style: {
+                fontWeight: 'bold',
+                color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+            }
+        }
+    },
+    legend: {
+        align: 'right',
+        x: -30,
+        verticalAlign: 'top',
+        y: 25,
+        floating: true,
+        backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+        borderColor: '#CCC',
+        borderWidth: 1,
+        shadow: false
+    },
+    tooltip: {
+        headerFormat: '<b>{point.x}</b><br/>',
+        pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+    },
+    plotOptions: {
+        column: {
+            stacking: 'normal',
+            dataLabels: {
+                enabled: true,
+                color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
+            }
+        }
+    },
+    series: [{
+        name: 'Delayed',
+        data: {{Delayed|safe}},
+        color: 'red'
+    }, {
+        name: 'Due Soon',
+        data: {{DueSoon|safe}},
+        color: 'orange'
+    }, {
+        name: 'Completed',
+        data: {{Completed|safe}},
+        color: 'green'
+    },
+    {
+        name: 'OnTime',
+        data: {{OnTime|safe}},
+        color: 'blue',
+        visible: false
+    },]
+});
+
+
+</script>
+{% endblock %}

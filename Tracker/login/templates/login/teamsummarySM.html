@@ -1,0 +1,393 @@
+{% extends 'base.html' %}
+
+{%block head%}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/data.js"></script>
+<script src="https://code.highcharts.com/modules/drilldown.js"></script>
+
+
+{% endblock%}
+
+{%block content%}
+
+{%if perms.mobile.is_strategic %}
+<ul class="nav navbar-nav">
+    <li><a href="/mobile/">Strategic Projects</a></li>
+</ul>
+{% endif %}
+<ul class="nav navbar-nav">
+    <li><a href="/login/summary">HA/HE</a></li>
+</ul>
+
+<ul class="nav navbar-nav">
+    <li><a href="/general/">Mobile</a></li>
+</ul>
+
+<ul class="nav navbar-nav">
+    <li><a href="/others/">Other Projects</a></li>
+</ul>
+
+{% endblock%}
+
+{% block body %}
+
+<div class="container-fluid" >
+<h2 align ="center">Overview of Top 6 Products</h2>
+<div class="btn-group" role="group" aria-label="Basic example">
+  <button type="button" class="btn btn-secondary" onclick="location.href='/login/homepage/HA/'">HA</button>
+  <button type="button" class="btn btn-secondary" onclick="location.href='/login/homepage/HE/'">HE</button>
+  <!--<button type="button" class="btn btn-secondary" >Mobile</button>-->
+</div>
+
+<div id="container"style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+    <p></p>
+    <p></p>
+  <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+      {% for D in MainDevices%}
+    <button type="button" class="btn btn-secondary" onclick="location.href='/login/homepage/{{D.Device.id}}/'">{{D.Device.Name}}</button>
+    {%endfor%}
+    </div>
+
+<div id="container1" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+    <div class="btn-group" role="group" aria-label="Basic example">
+  <button type="button" class="btn btn-secondary" onclick="location.href='/login/homepage/{{selectedDevice.id}}/productreadiness'">Product Readiness</button>
+  <button type="button" class="btn btn-secondary" onclick="location.href='/login/homepage/{{selectedDevice.id}}/videocontent'">Video Content</button>
+        <button type="button" class="btn btn-secondary" onclick="location.href='/login/homepage/{{selectedDevice.id}}/digitalcontent'">Digital Content</button>
+  <button type="button" class="btn btn-secondary" onclick="location.href='/login/homepage/{{selectedDevice.id}}/callcentertraining'">Call Center Training</button>
+        <button type="button" class="btn btn-secondary" onclick="location.href='/login/homepage/{{selectedDevice.id}}/callcenteroperations'">Call Center Operations</button>
+  <button type="button" class="btn btn-secondary" onclick="location.href='/login/homepage/{{selectedDevice.id}}/productsupport'">Product Support</button>
+        <button type="button" class="btn btn-secondary" onclick="location.href='/login/homepage/{{selectedDevice.id}}/warehouse'">Warehouse</button>
+  <button type="button" class="btn btn-secondary" onclick="location.href='/login/homepage/{{selectedDevice.id}}/fieldservice'">Field Service</button>
+        <button type="button" class="btn btn-secondary" onclick="location.href='/login/homepage/{{selectedDevice.id}}/techsupport'">Tech Support</button>
+  <button type="button" class="btn btn-secondary" onclick="location.href='/login/homepage/{{selectedDevice.id}}/servicemarketing'">Service Marketing</button>
+      <button type="button" class="btn btn-secondary" onclick="location.href='/login/homepage/{{selectedDevice.id}}/servicetraining'">Service Training</button>
+  <button type="button" class="btn btn-secondary" onclick="location.href='/login/homepage/{{selectedDevice.id}}/parts'">Parts</button>
+
+</div>
+
+    <p></p>
+    <p></p>
+    <div id="container2" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+</div>
+<!--     <div class="btn-toolbar" align='center' role="toolbar" aria-label="Toolbar with button groups">
+  <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+      {% for device in Device%}
+      {% if forloop.counter <= 5 %}
+    <button type="button" class="btn btn-secondary" onclick="location.href='/login/homepage/{{device.id}}/'">{{device.Name}}</button>
+    {% endif%}
+    {%endfor%}
+
+        {% if counter > 5%}
+<div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+  <div class="btn-group" role="group">
+    <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Dropdown
+    </button>
+    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+    {% for device in Device%}
+    {% if forloop.counter > 5 %}
+      <a class="dropdown-item" onclick="location.href='/login/homepage/{{device.id}}/'">{{device.Name}}</a>
+      {% endif%}
+      {%endfor%}
+    </div>
+  </div>
+</div>
+        {% endif%}
+  </div>
+</div>
+</div> -->
+<!-- 
+<script>
+Highcharts.chart('container', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: 'Overall % Readiness'
+    },
+    subtitle: {
+        text: 'Week over week view'
+    },
+    xAxis: {
+        categories: [
+            'Week {{PreviousWeek3}}',
+            'Week {{PreviousWeek2}}',
+            'Week {{PreviousWeek1}}',
+            'Week {{CurrentWeek}}'
+        ],
+        crosshair: true
+    },
+    yAxis: {
+        min: 0,
+        max: 100,
+        title: {
+            text: 'Completion (%)'
+        }
+    },
+    tooltip: {
+        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+            '<td style="padding:0"><b>{point.y:.1f} %</b></td></tr>',
+        footerFormat: '</table>',
+        shared: true,
+        useHTML: true
+    },
+    plotOptions: {
+        column: {
+            pointPadding: 0.2,
+            borderWidth: 0
+        }
+    },
+    series: [{
+        name: '{{array.0}}',
+        data: {{setcompleted1|safe}}
+
+    }, {
+        name: '{{array.1}}',
+        data: [10, 20, 50, 80]
+
+    }, {
+        name: '{{array.2}}',
+        data: [5, 10, 20, 25]
+
+    }, {
+        name: '{{array.3}}',
+        data: [1, 20, 22, 30]
+
+    }, {
+        name: '{{array.4}}',
+        data: [0, 0, 5, 10]
+
+    }, {
+        name: '{{array.5}}',
+        data: [1, 7, 16, 35]
+
+    },]
+});
+
+</script> -->
+<script type="text/javascript">
+    Highcharts.chart('container', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: 'Pre-Launch Overall % Readiness'
+    },
+    subtitle: {
+        text: 'Click the columns to view week over week update'
+    },
+    xAxis: {
+        type: 'category'
+    },
+    yAxis: {
+        title: {
+            text: 'Completion %'
+        }
+
+    },
+    legend: {
+        enabled: false
+    },
+    plotOptions: {
+        series: {
+            borderWidth: 0,
+            dataLabels: {
+                enabled: true,
+                format: '{point.y:.1f}%'
+            }
+        }
+    },
+
+    tooltip: {
+        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+        pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
+    },
+
+    series: [{
+        name: 'Products',
+        colorByPoint: true,
+        data: [
+{% for D in MainDevices %}
+        {
+            name: '{{D.Device.Name}}',
+            y: {{D.Device.completed}},
+            drilldown: '{{D.Device.Name}}'
+        }, 
+{% endfor%}
+        ]
+    }],
+    drilldown: {
+        series: [
+{% for D in MainDevices %}
+        {
+            name: '{{D.Device.Name}}',
+            id: '{{D.Device.Name}}',
+            data: [
+            {%for z in D.Device.devicehistory_set.all%}
+                [
+                    'Week #{{z.Created.isocalendar.1}}, {{z.Created|date:"M"}}',
+                    {{z.Completed}}
+                ],
+            {%endfor%} 
+            ]
+        },
+{% endfor%}
+
+        ]
+    }
+});
+</script>
+<script type="text/javascript">
+  Highcharts.chart('container1', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: '{{selectedDevice}} Team Status'
+    },
+    xAxis: {
+        categories: ['Product Readiness', 'Video Content', 'Digital Content', 'Call Center Training','Call Center Operations', 'Product Support', 'Warehouse',
+        'Field Service', 'Tech Support', 'Service Marketing', 'Service Training', 'Parts']
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: 'Total fruit consumption'
+        },
+        stackLabels: {
+            enabled: true,
+            style: {
+                fontWeight: 'bold',
+                color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+            }
+        }
+    },
+    legend: {
+        align: 'right',
+        x: -30,
+        verticalAlign: 'top',
+        y: 25,
+        floating: true,
+        backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+        borderColor: '#CCC',
+        borderWidth: 1,
+        shadow: false
+    },
+    tooltip: {
+        headerFormat: '<b>{point.x}</b><br/>',
+        pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+    },
+    plotOptions: {
+        column: {
+            stacking: 'normal',
+            dataLabels: {
+                enabled: true,
+                color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
+            }
+        }
+    },
+    series: [{
+        name: 'Delayed',
+        data: {{Delayed|safe}},
+        color: 'red'
+    }, {
+        name: 'Due Soon',
+        data: {{DueSoon|safe}},
+        color: 'orange'
+    }, {
+        name: 'Completed',
+        data: {{Completed|safe}},
+        color: 'green'
+    },
+    {
+        name: 'OnTime',
+        data: {{OnTime|safe}},
+        color: 'blue',
+        visible: false
+    },]
+});
+
+
+</script>
+
+<script type="text/javascript">
+  Highcharts.chart('container2', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: '{{selectedDevice}} Service Marketing Status'
+    },
+    xAxis: {
+        categories: {{createdHistory|safe}}
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: 'Total fruit consumption'
+        },
+        stackLabels: {
+            enabled: true,
+            style: {
+                fontWeight: 'bold',
+                color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+            }
+        }
+    },
+    legend: {
+        align: 'right',
+        x: -30,
+        verticalAlign: 'top',
+        y: 25,
+        floating: true,
+        backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+        borderColor: '#CCC',
+        borderWidth: 1,
+        shadow: false
+    },
+    tooltip: {
+        headerFormat: '<b>{point.x}</b><br/>',
+        pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+    },
+    plotOptions: {
+        column: {
+            stacking: 'normal',
+            dataLabels: {
+                enabled: true,
+                color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
+            }
+        }
+    },
+    series: [{
+        name: 'Delayed',
+        data: {{DelayedHistory|safe}},
+        color: 'red'
+    }, {
+        name: 'Due Soon',
+        data: {{DueSoonHistory|safe}},
+        color: 'orange'
+    }, {
+        name: 'Completed',
+        data: {{CompletedHistory|safe}},
+        color: 'green'
+    },
+    {
+        name: 'OnTime',
+        data: {{OntimeHistory|safe}},
+        color: 'blue',
+        visible: false
+    },]
+});
+
+
+</script>
+
+
+{% endblock %}

@@ -1,0 +1,4050 @@
+{% extends 'base.html' %}
+
+{% block head %}
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+  $("#btnExport").click(function(e) {
+    e.preventDefault();
+
+    //getting data from our table
+    var data_type = 'data:application/vnd.ms-excel';
+    var table_div = document.getElementById('table_wrapper');
+    var table_html = table_div.outerHTML.replace(/ /g, '%20');
+
+    var a = document.createElement('a');
+    a.href = data_type + ', ' + table_html;
+    a.download = 'exported_table_' + Math.floor((Math.random() * 9999999) + 1000000) + '.xls';
+    a.click();
+  });
+});
+
+</script>
+{% endblock %}
+
+{%block content%}
+
+<ul class="nav navbar-nav">
+    <li><a href="/login/summary/">HA/HE</a></li>
+</ul>
+
+<ul class="nav navbar-nav">
+    <li><a href="/general/">Mobile</a></li>
+</ul>
+
+<ul class="nav navbar-nav">
+    <li><a href="/others/">Other Projects</a></li>
+</ul>
+
+{% endblock %}
+
+{% block body %}
+
+<div class ="container">
+    <h1>{{Device.Name}} - Detailed Status</h1>
+ <button id="btnExport">Export to xls</button>
+  <br />
+  <br />
+  <div id="table_wrapper">
+    <table border="1" cellspacing="0" bordercolor="#222" id="list">
+      <tbody>
+        <tr class="header">
+							<th>Team</th>
+							<th>POC</th>
+							<th>Tasks</th>
+							<th>Start Date</th>
+							<th>Target Complete Date</th>
+							<th>Actual Date Complete</th>
+                            <th>Status/Details</th>
+							<th>Status</th>
+							<th>Completion Rate</th>
+							<th>Launch Date</th>
+        </tr>
+        <tr>
+                            <th rowspan={{Active_PR}}>Product Readiness</th>
+							<th rowspan={{Active_PR}}>{{Device.ProductReadiness.Poc1}} and {{Device.ProductReadiness.poc2}}</th>
+                            {% if Device.ProductReadiness.Task1_Name %}
+							<th>{{Device.ProductReadiness.Task1_Name}}</th>
+							<th>{{Device.ProductReadiness.Task1_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductReadiness.Task1_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductReadiness.Task1_complete_date|date:"m-d-y"}}</th>
+                            <th>
+
+                                <p>{%for post in posts1_PR%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}
+
+                                {% endfor %}</p>
+                            </th>
+
+                            {% endif %}
+                            {% if Device.ProductReadiness.completed == 100 %}
+							<th rowspan={{Active_PR}}>Completed</th>
+                            {% else%}
+                            <th rowspan={{Active_PR}}>{{ Device.ProductReadiness.Status }}</th>
+                            {% endif %}
+							<th rowspan={{Active_PR}}>{{ Device.ProductReadiness.completed }}</th>
+							<th>{{Device.LaunchDate}}</th>
+
+        </tr>
+
+            {% if Device.ProductReadiness.Task2_Name%}
+
+      <tr>
+          							<th>{{Device.ProductReadiness.Task2_Name}}</th>
+							<th>{{Device.ProductReadiness.Task2_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductReadiness.Task2_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductReadiness.Task2_complete_date|date:"m-d-y"}}</th>
+                            <th>
+
+                                <p>{%for post in posts2_PR%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}
+                                {% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ProductReadiness.Task3_Name%}
+
+      <tr>
+          							<th>{{Device.ProductReadiness.Task3_Name}}</th>
+							<th>{{Device.ProductReadiness.Task3_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductReadiness.Task3_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductReadiness.Task3_complete_date|date:"m-d-y"}}</th>
+                            <th>
+
+                                <p>{%for post in posts3_PR%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}
+                                {% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ProductReadiness.Task4_Name%}
+
+      <tr>
+          							<th>{{Device.ProductReadiness.Task4_Name}}</th>
+							<th>{{Device.ProductReadiness.Task4_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductReadiness.Task4_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductReadiness.Task4_complete_date|date:"m-d-y"}}</th>
+                            <th>
+
+                                <p>{%for post in posts4_PR%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}
+                                    {% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ProductReadiness.Task5_Name%}
+
+      <tr>
+          							<th>{{Device.ProductReadiness.Task5_Name}}</th>
+							<th>{{Device.ProductReadiness.Task5_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductReadiness.Task5_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductReadiness.Task5_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts5_PR%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ProductReadiness.Task6_Name%}
+
+      <tr>
+          							<th>{{Device.ProductReadiness.Task6_Name}}</th>
+							<th>{{Device.ProductReadiness.Task6_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductReadiness.Task6_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductReadiness.Task6_complete_date|date:"m-d-y"}}</th>
+                            <th>
+
+                                <p>{%for post in posts6_PR%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ProductReadiness.Task7_Name%}
+
+      <tr>
+          							<th>{{Device.ProductReadiness.Task7_Name}}</th>
+							<th>{{Device.ProductReadiness.Task7_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductReadiness.Task7_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductReadiness.Task7_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts7_PR%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ProductReadiness.Task8_Name%}
+
+      <tr>
+          							<th>{{Device.ProductReadiness.Task8_Name}}</th>
+							<th>{{Device.ProductReadiness.Task8_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductReadiness.Task8_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductReadiness.Task8_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts8_PR%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ProductReadiness.Task9_Name%}
+
+      <tr>
+          							<th>{{Device.ProductReadiness.Task9_Name}}</th>
+							<th>{{Device.ProductReadiness.Task9_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductReadiness.Task9_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductReadiness.Task9_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts9_PR%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}
+                                {% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ProductReadiness.Task10_Name%}
+
+      <tr>
+          							<th>{{Device.ProductReadiness.Task10_Name}}</th>
+							<th>{{Device.ProductReadiness.Task10_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductReadiness.Task10_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductReadiness.Task10_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts10_PR%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ProductReadiness.Task11_Name%}
+
+      <tr>
+          							<th>{{Device.ProductReadiness.Task11_Name}}</th>
+							<th>{{Device.ProductReadiness.Task11_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductReadiness.Task11_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductReadiness.Task11_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts11_PR%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ProductReadiness.Task12_Name%}
+
+      <tr>
+          							<th>{{Device.ProductReadiness.Task12_Name}}</th>
+							<th>{{Device.ProductReadiness.Task12_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductReadiness.Task12_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductReadiness.Task12_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts12_PR%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ProductReadiness.Task13_Name%}
+
+      <tr>
+          							<th>{{Device.ProductReadiness.Task13_Name}}</th>
+							<th>{{Device.ProductReadiness.Task13_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductReadiness.Task13_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductReadiness.Task13_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts13_PR%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ProductReadiness.Task14_Name%}
+
+      <tr>
+          							<th>{{Device.ProductReadiness.Task14_Name}}</th>
+							<th>{{Device.ProductReadiness.Task14_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductReadiness.Task14_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductReadiness.Task14_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts14_PR%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ProductReadiness.Task15_Name%}
+
+      <tr>
+          							<th>{{Device.ProductReadiness.Task15_Name}}</th>
+							<th>{{Device.ProductReadiness.Task15_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductReadiness.Task15_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductReadiness.Task15_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts15_PR%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ProductReadiness.Task16_Name%}
+
+      <tr>
+          							<th>{{Device.ProductReadiness.Task16_Name}}</th>
+							<th>{{Device.ProductReadiness.Task16_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductReadiness.Task16_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductReadiness.Task16_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts16_PR%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ProductReadiness.Task17_Name%}
+
+      <tr>
+          							<th>{{Device.ProductReadiness.Task17_Name}}</th>
+							<th>{{Device.ProductReadiness.Task17_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductReadiness.Task17_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductReadiness.Task17_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts17_PR%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ProductReadiness.Task18_Name%}
+
+      <tr>
+          							<th>{{Device.ProductReadiness.Task18_Name}}</th>
+							<th>{{Device.ProductReadiness.Task18_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductReadiness.Task18_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductReadiness.Task18_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts18_PR%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ProductReadiness.Task19_Name%}
+
+      <tr>
+          							<th>{{Device.ProductReadiness.Task19_Name}}</th>
+							<th>{{Device.ProductReadiness.Task19_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductReadiness.Task19_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductReadiness.Task19_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts19_PR%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ProductReadiness.Task20_Name%}
+
+      <tr>
+          							<th>{{Device.ProductReadiness.Task20_Name}}</th>
+							<th>{{Device.ProductReadiness.Task20_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductReadiness.Task20_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductReadiness.Task20_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts20_PR%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+
+
+              <tr>
+                            <th rowspan={{Active_DC}}>Digital Content</th>
+							<th rowspan={{Active_DC}}>{{Device.DigitalContent.Poc1}} and {{Device.DigitalContent.poc2}}</th>
+                            {% if Device.DigitalContent.Task1_Name %}
+							<th>{{Device.DigitalContent.Task1_Name}}</th>
+							<th>{{Device.DigitalContent.Task1_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.DigitalContent.Task1_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.DigitalContent.Task1_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts1_DC%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+                            {% endif %}
+                            {% if Device.DigitalContent.completed == 100 %}
+							<th rowspan={{Active_DC}}>Completed</th>
+                            {% else%}
+                            <th rowspan={{Active_DC}}>{{ Device.DigitalContent.Status }}</th>
+                            {% endif %}
+							<th rowspan={{Active_DC}}>{{ Device.DigitalContent.completed }}</th>
+
+
+        </tr>
+
+            {% if Device.DigitalContent.Task2_Name%}
+
+      <tr>
+          							<th>{{Device.DigitalContent.Task2_Name}}</th>
+							<th>{{Device.DigitalContent.Task2_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.DigitalContent.Task2_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.DigitalContent.Task2_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts2_DC%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.DigitalContent.Task3_Name%}
+
+      <tr>
+          							<th>{{Device.DigitalContent.Task3_Name}}</th>
+							<th>{{Device.DigitalContent.Task3_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.DigitalContent.Task3_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.DigitalContent.Task3_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts3_DC%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.DigitalContent.Task4_Name%}
+
+      <tr>
+          							<th>{{Device.DigitalContent.Task4_Name}}</th>
+							<th>{{Device.DigitalContent.Task4_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.DigitalContent.Task4_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.DigitalContent.Task4_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts4_DC%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.DigitalContent.Task5_Name%}
+
+      <tr>
+          							<th>{{Device.DigitalContent.Task5_Name}}</th>
+							<th>{{Device.DigitalContent.Task5_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.DigitalContent.Task5_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.DigitalContent.Task5_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts5_DC%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.DigitalContent.Task6_Name%}
+
+      <tr>
+          							<th>{{Device.DigitalContent.Task6_Name}}</th>
+							<th>{{Device.DigitalContent.Task6_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.DigitalContent.Task6_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.DigitalContent.Task6_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts6_DC%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.DigitalContent.Task7_Name%}
+
+      <tr>
+          							<th>{{Device.DigitalContent.Task7_Name}}</th>
+							<th>{{Device.DigitalContent.Task7_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.DigitalContent.Task7_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.DigitalContent.Task7_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts7_DC%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.DigitalContent.Task8_Name%}
+
+      <tr>
+          							<th>{{Device.DigitalContent.Task8_Name}}</th>
+							<th>{{Device.DigitalContent.Task8_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.DigitalContent.Task8_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.DigitalContent.Task8_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts8_DC%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.DigitalContent.Task9_Name%}
+
+      <tr>
+          							<th>{{Device.DigitalContent.Task9_Name}}</th>
+							<th>{{Device.DigitalContent.Task9_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.DigitalContent.Task9_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.DigitalContent.Task9_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts9_DC%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.DigitalContent.Task10_Name%}
+
+      <tr>
+          							<th>{{Device.DigitalContent.Task10_Name}}</th>
+							<th>{{Device.DigitalContent.Task10_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.DigitalContent.Task10_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.DigitalContent.Task10_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts10_DC%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.DigitalContent.Task11_Name%}
+
+      <tr>
+          							<th>{{Device.DigitalContent.Task11_Name}}</th>
+							<th>{{Device.DigitalContent.Task11_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.DigitalContent.Task11_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.DigitalContent.Task11_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts11_DC%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.DigitalContent.Task12_Name%}
+
+      <tr>
+          							<th>{{Device.DigitalContent.Task12_Name}}</th>
+							<th>{{Device.DigitalContent.Task12_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.DigitalContent.Task12_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.DigitalContent.Task12_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts12_DC%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.DigitalContent.Task13_Name%}
+
+      <tr>
+          							<th>{{Device.DigitalContent.Task13_Name}}</th>
+							<th>{{Device.DigitalContent.Task13_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.DigitalContent.Task13_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.DigitalContent.Task13_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts13_DC%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.DigitalContent.Task14_Name%}
+
+      <tr>
+          							<th>{{Device.DigitalContent.Task14_Name}}</th>
+							<th>{{Device.DigitalContent.Task14_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.DigitalContent.Task14_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.DigitalContent.Task14_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts14_DC%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.DigitalContent.Task15_Name%}
+
+      <tr>
+          							<th>{{Device.DigitalContent.Task15_Name}}</th>
+							<th>{{Device.DigitalContent.Task15_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.DigitalContent.Task15_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.DigitalContent.Task15_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts15_DC%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.DigitalContent.Task16_Name%}
+
+      <tr>
+          							<th>{{Device.DigitalContent.Task16_Name}}</th>
+							<th>{{Device.DigitalContent.Task16_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.DigitalContent.Task16_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.DigitalContent.Task16_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts16_DC%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.DigitalContent.Task17_Name%}
+
+      <tr>
+          							<th>{{Device.DigitalContent.Task17_Name}}</th>
+							<th>{{Device.DigitalContent.Task17_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.DigitalContent.Task17_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.DigitalContent.Task17_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts17_DC%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.DigitalContent.Task18_Name%}
+
+      <tr>
+          							<th>{{Device.DigitalContent.Task18_Name}}</th>
+							<th>{{Device.DigitalContent.Task18_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.DigitalContent.Task18_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.DigitalContent.Task18_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts18_DC%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.DigitalContent.Task19_Name%}
+
+      <tr>
+          							<th>{{Device.DigitalContent.Task19_Name}}</th>
+							<th>{{Device.DigitalContent.Task19_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.DigitalContent.Task19_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.DigitalContent.Task19_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts19_DC%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.DigitalContent.Task20_Name%}
+
+      <tr>
+          							<th>{{Device.DigitalContent.Task20_Name}}</th>
+							<th>{{Device.DigitalContent.Task20_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.DigitalContent.Task20_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.DigitalContent.Task20_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts20_DC%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+
+
+                        <tr>
+                            <th rowspan={{Active_VC}}>Video Content</th>
+							<th rowspan={{Active_VC}}>{{Device.VideoContent.Poc1}} and {{Device.VideoContent.poc2}}</th>
+                            {% if Device.VideoContent.Task1_Name %}
+							<th>{{Device.VideoContent.Task1_Name}}</th>
+							<th>{{Device.VideoContent.Task1_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.VideoContent.Task1_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.VideoContent.Task1_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts1_VC%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+                            {% endif %}
+                            {% if Device.VideoContent.completed == 100 %}
+							<th rowspan={{Active_VC}}>Completed</th>
+                            {% else%}
+                            <th rowspan={{Active_VC}}>{{ Device.VideoContent.Status }}</th>
+                            {% endif %}
+							<th rowspan={{Active_VC}}>{{ Device.VideoContent.completed }}</th>
+
+
+        </tr>
+
+            {% if Device.VideoContent.Task2_Name%}
+
+      <tr>
+          							<th>{{Device.VideoContent.Task2_Name}}</th>
+							<th>{{Device.VideoContent.Task2_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.VideoContent.Task2_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.VideoContent.Task2_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts2_VC%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.VideoContent.Task3_Name%}
+
+      <tr>
+          							<th>{{Device.VideoContent.Task3_Name}}</th>
+							<th>{{Device.VideoContent.Task3_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.VideoContent.Task3_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.VideoContent.Task3_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts3_VC%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.VideoContent.Task4_Name%}
+
+      <tr>
+          							<th>{{Device.VideoContent.Task4_Name}}</th>
+							<th>{{Device.VideoContent.Task4_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.VideoContent.Task4_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.VideoContent.Task4_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts4_VC%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.VideoContent.Task5_Name%}
+
+      <tr>
+          							<th>{{Device.VideoContent.Task5_Name}}</th>
+							<th>{{Device.VideoContent.Task5_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.VideoContent.Task5_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.VideoContent.Task5_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts5_VC%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.VideoContent.Task6_Name%}
+
+      <tr>
+          							<th>{{Device.VideoContent.Task6_Name}}</th>
+							<th>{{Device.VideoContent.Task6_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.VideoContent.Task6_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.VideoContent.Task6_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts6_VC%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.VideoContent.Task7_Name%}
+
+      <tr>
+          							<th>{{Device.VideoContent.Task7_Name}}</th>
+							<th>{{Device.VideoContent.Task7_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.VideoContent.Task7_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.VideoContent.Task7_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts7_VC%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.VideoContent.Task8_Name%}
+
+      <tr>
+          							<th>{{Device.VideoContent.Task8_Name}}</th>
+							<th>{{Device.VideoContent.Task8_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.VideoContent.Task8_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.VideoContent.Task8_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts8_VC%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.VideoContent.Task9_Name%}
+
+      <tr>
+          							<th>{{Device.VideoContent.Task9_Name}}</th>
+							<th>{{Device.VideoContent.Task9_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.VideoContent.Task9_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.VideoContent.Task9_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts9_VC%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.VideoContent.Task10_Name%}
+
+      <tr>
+          							<th>{{Device.VideoContent.Task10_Name}}</th>
+							<th>{{Device.VideoContent.Task10_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.VideoContent.Task10_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.VideoContent.Task10_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts10_VC%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.VideoContent.Task11_Name%}
+
+      <tr>
+          							<th>{{Device.VideoContent.Task11_Name}}</th>
+							<th>{{Device.VideoContent.Task11_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.VideoContent.Task11_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.VideoContent.Task11_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts11_VC%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.VideoContent.Task12_Name%}
+
+      <tr>
+          							<th>{{Device.VideoContent.Task12_Name}}</th>
+							<th>{{Device.VideoContent.Task12_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.VideoContent.Task12_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.VideoContent.Task12_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts12_VC%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.VideoContent.Task13_Name%}
+
+      <tr>
+          							<th>{{Device.VideoContent.Task13_Name}}</th>
+							<th>{{Device.VideoContent.Task13_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.VideoContent.Task13_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.VideoContent.Task13_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts13_VC%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.VideoContent.Task14_Name%}
+
+      <tr>
+          							<th>{{Device.VideoContent.Task14_Name}}</th>
+							<th>{{Device.VideoContent.Task14_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.VideoContent.Task14_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.VideoContent.Task14_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts14_VC%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.VideoContent.Task15_Name%}
+
+      <tr>
+          							<th>{{Device.VideoContent.Task15_Name}}</th>
+							<th>{{Device.VideoContent.Task15_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.VideoContent.Task15_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.VideoContent.Task15_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts15_VC%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.VideoContent.Task16_Name%}
+
+      <tr>
+          							<th>{{Device.VideoContent.Task16_Name}}</th>
+							<th>{{Device.VideoContent.Task16_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.VideoContent.Task16_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.VideoContent.Task16_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts16_VC%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.VideoContent.Task17_Name%}
+
+      <tr>
+          							<th>{{Device.VideoContent.Task17_Name}}</th>
+							<th>{{Device.VideoContent.Task17_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.VideoContent.Task17_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.VideoContent.Task17_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts17_VC%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.VideoContent.Task18_Name%}
+
+      <tr>
+          							<th>{{Device.VideoContent.Task18_Name}}</th>
+							<th>{{Device.VideoContent.Task18_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.VideoContent.Task18_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.VideoContent.Task18_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts18_VC%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.VideoContent.Task19_Name%}
+
+      <tr>
+          							<th>{{Device.VideoContent.Task19_Name}}</th>
+							<th>{{Device.VideoContent.Task19_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.VideoContent.Task19_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.VideoContent.Task19_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts19_VC%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.VideoContent.Task20_Name%}
+
+      <tr>
+          							<th>{{Device.VideoContent.Task20_Name}}</th>
+							<th>{{Device.VideoContent.Task20_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.VideoContent.Task20_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.VideoContent.Task20_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts20_VC%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+
+                              <tr>
+                            <th rowspan={{Active_CCT}}>Call Center Training</th>
+							<th rowspan={{Active_CCT}}>{{Device.CallCenterTraining.Poc1}} and {{Device.CallCenterTraining.poc2}}</th>
+                            {% if Device.CallCenterTraining.Task1_Name %}
+							<th>{{Device.CallCenterTraining.Task1_Name}}</th>
+							<th>{{Device.CallCenterTraining.Task1_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterTraining.Task1_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterTraining.Task1_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts1_CCT%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+                            {% endif %}
+                            {% if Device.CallCenterTraining.completed == 100 %}
+							<th rowspan={{Active_CCT}}>Completed</th>
+                            {% else%}
+                            <th rowspan={{Active_CCT}}>{{ Device.CallCenterTraining.Status }}</th>
+                            {% endif %}
+							<th rowspan={{Active_CCT}}>{{ Device.CallCenterTraining.completed }}</th>
+
+
+        </tr>
+
+            {% if Device.CallCenterTraining.Task2_Name%}
+
+      <tr>
+          							<th>{{Device.CallCenterTraining.Task2_Name}}</th>
+							<th>{{Device.CallCenterTraining.Task2_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterTraining.Task2_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterTraining.Task2_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts2_CCT%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.CallCenterTraining.Task3_Name%}
+
+      <tr>
+          							<th>{{Device.CallCenterTraining.Task3_Name}}</th>
+							<th>{{Device.CallCenterTraining.Task3_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterTraining.Task3_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterTraining.Task3_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts3_CCT%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.CallCenterTraining.Task4_Name%}
+
+      <tr>
+          							<th>{{Device.CallCenterTraining.Task4_Name}}</th>
+							<th>{{Device.CallCenterTraining.Task4_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterTraining.Task4_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterTraining.Task4_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts4_CCT%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.CallCenterTraining.Task5_Name%}
+
+      <tr>
+          							<th>{{Device.CallCenterTraining.Task5_Name}}</th>
+							<th>{{Device.CallCenterTraining.Task5_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterTraining.Task5_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterTraining.Task5_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts5_CCT%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.CallCenterTraining.Task6_Name%}
+
+      <tr>
+          							<th>{{Device.CallCenterTraining.Task6_Name}}</th>
+							<th>{{Device.CallCenterTraining.Task6_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterTraining.Task6_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterTraining.Task6_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts6_CCT%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.CallCenterTraining.Task7_Name%}
+
+      <tr>
+          							<th>{{Device.CallCenterTraining.Task7_Name}}</th>
+							<th>{{Device.CallCenterTraining.Task7_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterTraining.Task7_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterTraining.Task7_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts7_CCT%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.CallCenterTraining.Task8_Name%}
+
+      <tr>
+          							<th>{{Device.CallCenterTraining.Task8_Name}}</th>
+							<th>{{Device.CallCenterTraining.Task8_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterTraining.Task8_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterTraining.Task8_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts8_CCT%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.CallCenterTraining.Task9_Name%}
+
+      <tr>
+          							<th>{{Device.CallCenterTraining.Task9_Name}}</th>
+							<th>{{Device.CallCenterTraining.Task9_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterTraining.Task9_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterTraining.Task9_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts9_CCT%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.CallCenterTraining.Task10_Name%}
+
+      <tr>
+          							<th>{{Device.CallCenterTraining.Task10_Name}}</th>
+							<th>{{Device.CallCenterTraining.Task10_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterTraining.Task10_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterTraining.Task10_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts10_CCT%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.CallCenterTraining.Task11_Name%}
+
+      <tr>
+          							<th>{{Device.CallCenterTraining.Task11_Name}}</th>
+							<th>{{Device.CallCenterTraining.Task11_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterTraining.Task11_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterTraining.Task11_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts11_CCT%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.CallCenterTraining.Task12_Name%}
+
+      <tr>
+          							<th>{{Device.CallCenterTraining.Task12_Name}}</th>
+							<th>{{Device.CallCenterTraining.Task12_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterTraining.Task12_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterTraining.Task12_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts12_CCT%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.CallCenterTraining.Task13_Name%}
+
+      <tr>
+          							<th>{{Device.CallCenterTraining.Task13_Name}}</th>
+							<th>{{Device.CallCenterTraining.Task13_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterTraining.Task13_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterTraining.Task13_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts13_CCT%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.CallCenterTraining.Task14_Name%}
+
+      <tr>
+          							<th>{{Device.CallCenterTraining.Task14_Name}}</th>
+							<th>{{Device.CallCenterTraining.Task14_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterTraining.Task14_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterTraining.Task14_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts14_CCT%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.CallCenterTraining.Task15_Name%}
+
+      <tr>
+          							<th>{{Device.CallCenterTraining.Task15_Name}}</th>
+							<th>{{Device.CallCenterTraining.Task15_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterTraining.Task15_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterTraining.Task15_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts15_CCT%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.CallCenterTraining.Task16_Name%}
+
+      <tr>
+          							<th>{{Device.CallCenterTraining.Task16_Name}}</th>
+							<th>{{Device.CallCenterTraining.Task16_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterTraining.Task16_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterTraining.Task16_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts16_CCT%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.CallCenterTraining.Task17_Name%}
+
+      <tr>
+          							<th>{{Device.CallCenterTraining.Task17_Name}}</th>
+							<th>{{Device.CallCenterTraining.Task17_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterTraining.Task17_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterTraining.Task17_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts17_CCT%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.CallCenterTraining.Task18_Name%}
+
+      <tr>
+          							<th>{{Device.CallCenterTraining.Task18_Name}}</th>
+							<th>{{Device.CallCenterTraining.Task18_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterTraining.Task18_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterTraining.Task18_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts18_CCT%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.CallCenterTraining.Task19_Name%}
+
+      <tr>
+          							<th>{{Device.CallCenterTraining.Task19_Name}}</th>
+							<th>{{Device.CallCenterTraining.Task19_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterTraining.Task19_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterTraining.Task19_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts19_CCT%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.CallCenterTraining.Task20_Name%}
+
+      <tr>
+          							<th>{{Device.CallCenterTraining.Task20_Name}}</th>
+							<th>{{Device.CallCenterTraining.Task20_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterTraining.Task20_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterTraining.Task20_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts20_CCT%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+
+                              <tr>
+                            <th rowspan={{Active_CCO}}>Call Center Operations</th>
+							<th rowspan={{Active_CCO}}>{{Device.CallCenterOpertaions.Poc1}} and {{Device.CallCenterOpertaions.poc2}}</th>
+                            {% if Device.CallCenterOpertaions.Task1_Name %}
+							<th>{{Device.CallCenterOpertaions.Task1_Name}}</th>
+							<th>{{Device.CallCenterOpertaions.Task1_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterOpertaions.Task1_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterOpertaions.Task1_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts1_CCO%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+                            {% endif %}
+                            {% if Device.CallCenterOpertaions.completed == 100 %}
+							<th rowspan={{Active_CCO}}>Completed</th>
+                            {% else%}
+                            <th rowspan={{Active_CCO}}>{{ Device.CallCenterOpertaions.Status }}</th>
+                            {% endif %}
+							<th rowspan={{Active_CCO}}>{{ Device.CallCenterOpertaions.completed }}</th>
+
+
+        </tr>
+
+            {% if Device.CallCenterOpertaions.Task2_Name%}
+
+      <tr>
+          							<th>{{Device.CallCenterOpertaions.Task2_Name}}</th>
+							<th>{{Device.CallCenterOpertaions.Task2_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterOpertaions.Task2_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterOpertaions.Task2_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts2_CCO%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.CallCenterOpertaions.Task3_Name%}
+
+      <tr>
+          							<th>{{Device.CallCenterOpertaions.Task3_Name}}</th>
+							<th>{{Device.CallCenterOpertaions.Task3_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterOpertaions.Task3_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterOpertaions.Task3_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts3_CCO%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.CallCenterOpertaions.Task4_Name%}
+
+      <tr>
+          							<th>{{Device.CallCenterOpertaions.Task4_Name}}</th>
+							<th>{{Device.CallCenterOpertaions.Task4_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterOpertaions.Task4_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterOpertaions.Task4_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts4_CCO%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.CallCenterOpertaions.Task5_Name%}
+
+      <tr>
+          							<th>{{Device.CallCenterOpertaions.Task5_Name}}</th>
+							<th>{{Device.CallCenterOpertaions.Task5_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterOpertaions.Task5_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterOpertaions.Task5_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts5_CCO%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.CallCenterOpertaions.Task6_Name%}
+
+      <tr>
+          							<th>{{Device.CallCenterOpertaions.Task6_Name}}</th>
+							<th>{{Device.CallCenterOpertaions.Task6_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterOpertaions.Task6_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterOpertaions.Task6_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts6_CCO%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.CallCenterOpertaions.Task7_Name%}
+
+      <tr>
+          							<th>{{Device.CallCenterOpertaions.Task7_Name}}</th>
+							<th>{{Device.CallCenterOpertaions.Task7_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterOpertaions.Task7_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterOpertaions.Task7_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts7_CCO%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.CallCenterOpertaions.Task8_Name%}
+
+      <tr>
+          							<th>{{Device.CallCenterOpertaions.Task8_Name}}</th>
+							<th>{{Device.CallCenterOpertaions.Task8_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterOpertaions.Task8_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterOpertaions.Task8_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts8_CCO%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.CallCenterOpertaions.Task9_Name%}
+
+      <tr>
+          							<th>{{Device.CallCenterOpertaions.Task9_Name}}</th>
+							<th>{{Device.CallCenterOpertaions.Task9_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterOpertaions.Task9_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterOpertaions.Task9_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts9_CCO%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.CallCenterOpertaions.Task10_Name%}
+
+      <tr>
+          							<th>{{Device.CallCenterOpertaions.Task10_Name}}</th>
+							<th>{{Device.CallCenterOpertaions.Task10_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterOpertaions.Task10_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterOpertaions.Task10_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts10_CCO%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.CallCenterOpertaions.Task11_Name%}
+
+      <tr>
+          							<th>{{Device.CallCenterOpertaions.Task11_Name}}</th>
+							<th>{{Device.CallCenterOpertaions.Task11_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterOpertaions.Task11_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterOpertaions.Task11_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts11_CCO%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.CallCenterOpertaions.Task12_Name%}
+
+      <tr>
+          							<th>{{Device.CallCenterOpertaions.Task12_Name}}</th>
+							<th>{{Device.CallCenterOpertaions.Task12_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterOpertaions.Task12_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterOpertaions.Task12_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts12_CCO%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.CallCenterOpertaions.Task13_Name%}
+
+      <tr>
+          							<th>{{Device.CallCenterOpertaions.Task13_Name}}</th>
+							<th>{{Device.CallCenterOpertaions.Task13_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterOpertaions.Task13_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterOpertaions.Task13_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts13_CCO%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.CallCenterOpertaions.Task14_Name%}
+
+      <tr>
+          							<th>{{Device.CallCenterOpertaions.Task14_Name}}</th>
+							<th>{{Device.CallCenterOpertaions.Task14_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterOpertaions.Task14_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterOpertaions.Task14_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts14_CCO%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.CallCenterOpertaions.Task15_Name%}
+
+      <tr>
+          							<th>{{Device.CallCenterOpertaions.Task15_Name}}</th>
+							<th>{{Device.CallCenterOpertaions.Task15_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterOpertaions.Task15_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterOpertaions.Task15_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts15_CCO%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.CallCenterOpertaions.Task16_Name%}
+
+      <tr>
+          							<th>{{Device.CallCenterOpertaions.Task16_Name}}</th>
+							<th>{{Device.CallCenterOpertaions.Task16_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterOpertaions.Task16_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterOpertaions.Task16_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts16_CCO%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.CallCenterOpertaions.Task17_Name%}
+
+      <tr>
+          							<th>{{Device.CallCenterOpertaions.Task17_Name}}</th>
+							<th>{{Device.CallCenterOpertaions.Task17_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterOpertaions.Task17_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterOpertaions.Task17_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts17_CCO%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.CallCenterOpertaions.Task18_Name%}
+
+      <tr>
+          							<th>{{Device.CallCenterOpertaions.Task18_Name}}</th>
+							<th>{{Device.CallCenterOpertaions.Task18_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterOpertaions.Task18_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterOpertaions.Task18_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts18_CCO%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.CallCenterOpertaions.Task19_Name%}
+
+      <tr>
+          							<th>{{Device.CallCenterOpertaions.Task19_Name}}</th>
+							<th>{{Device.CallCenterOpertaions.Task19_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterOpertaions.Task19_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterOpertaions.Task19_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts19_CCO%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.CallCenterOpertaions.Task20_Name%}
+
+      <tr>
+          							<th>{{Device.CallCenterOpertaions.Task20_Name}}</th>
+							<th>{{Device.CallCenterOpertaions.Task20_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterOpertaions.Task20_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.CallCenterOpertaions.Task20_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts20_CCO%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+
+                              <tr>
+                            <th rowspan={{Active_PS}}>Product Support</th>
+							<th rowspan={{Active_PS}}>{{Device.ProductSupport.Poc1}} and {{Device.ProductSupport.poc2}}</th>
+                            {% if Device.ProductSupport.Task1_Name %}
+							<th>{{Device.ProductSupport.Task1_Name}}</th>
+							<th>{{Device.ProductSupport.Task1_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductSupport.Task1_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductSupport.Task1_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts1_PS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+                            {% endif %}
+                            {% if Device.ProductSupport.completed == 100 %}
+							<th rowspan={{Active_PS}}>Completed</th>
+                            {% else%}
+                            <th rowspan={{Active_PS}}>{{ Device.ProductSupport.Status }}</th>
+                            {% endif %}
+							<th rowspan={{Active_PS}}>{{ Device.ProductSupport.completed }}</th>
+
+
+        </tr>
+
+            {% if Device.ProductSupport.Task2_Name%}
+
+      <tr>
+          							<th>{{Device.ProductSupport.Task2_Name}}</th>
+							<th>{{Device.ProductSupport.Task2_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductSupport.Task2_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductSupport.Task2_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts2_PS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ProductSupport.Task3_Name%}
+
+      <tr>
+          							<th>{{Device.ProductSupport.Task3_Name}}</th>
+							<th>{{Device.ProductSupport.Task3_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductSupport.Task3_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductSupport.Task3_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts3_PS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ProductSupport.Task4_Name%}
+
+      <tr>
+          							<th>{{Device.ProductSupport.Task4_Name}}</th>
+							<th>{{Device.ProductSupport.Task4_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductSupport.Task4_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductSupport.Task4_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts4_PS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ProductSupport.Task5_Name%}
+
+      <tr>
+          							<th>{{Device.ProductSupport.Task5_Name}}</th>
+							<th>{{Device.ProductSupport.Task5_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductSupport.Task5_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductSupport.Task5_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts5_PS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ProductSupport.Task6_Name%}
+
+      <tr>
+          							<th>{{Device.ProductSupport.Task6_Name}}</th>
+							<th>{{Device.ProductSupport.Task6_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductSupport.Task6_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductSupport.Task6_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts6_PS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ProductSupport.Task7_Name%}
+
+      <tr>
+          							<th>{{Device.ProductSupport.Task7_Name}}</th>
+							<th>{{Device.ProductSupport.Task7_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductSupport.Task7_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductSupport.Task7_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts7_PS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ProductSupport.Task8_Name%}
+
+      <tr>
+          							<th>{{Device.ProductSupport.Task8_Name}}</th>
+							<th>{{Device.ProductSupport.Task8_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductSupport.Task8_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductSupport.Task8_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts8_PS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ProductSupport.Task9_Name%}
+
+      <tr>
+          							<th>{{Device.ProductSupport.Task9_Name}}</th>
+							<th>{{Device.ProductSupport.Task9_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductSupport.Task9_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductSupport.Task9_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts9_PS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ProductSupport.Task10_Name%}
+
+      <tr>
+          							<th>{{Device.ProductSupport.Task10_Name}}</th>
+							<th>{{Device.ProductSupport.Task10_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductSupport.Task10_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductSupport.Task10_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts10_PS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ProductSupport.Task11_Name%}
+
+      <tr>
+          							<th>{{Device.ProductSupport.Task11_Name}}</th>
+							<th>{{Device.ProductSupport.Task11_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductSupport.Task11_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductSupport.Task11_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts11_PS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ProductSupport.Task12_Name%}
+
+      <tr>
+          							<th>{{Device.ProductSupport.Task12_Name}}</th>
+							<th>{{Device.ProductSupport.Task12_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductSupport.Task12_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductSupport.Task12_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts12_PS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ProductSupport.Task13_Name%}
+
+      <tr>
+          							<th>{{Device.ProductSupport.Task13_Name}}</th>
+							<th>{{Device.ProductSupport.Task13_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductSupport.Task13_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductSupport.Task13_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts13_PS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ProductSupport.Task14_Name%}
+
+      <tr>
+          							<th>{{Device.ProductSupport.Task14_Name}}</th>
+							<th>{{Device.ProductSupport.Task14_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductSupport.Task14_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductSupport.Task14_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts14_PS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ProductSupport.Task15_Name%}
+
+      <tr>
+          							<th>{{Device.ProductSupport.Task15_Name}}</th>
+							<th>{{Device.ProductSupport.Task15_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductSupport.Task15_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductSupport.Task15_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts15_PS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ProductSupport.Task16_Name%}
+
+      <tr>
+          							<th>{{Device.ProductSupport.Task16_Name}}</th>
+							<th>{{Device.ProductSupport.Task16_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductSupport.Task16_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductSupport.Task16_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts16_PS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ProductSupport.Task17_Name%}
+
+      <tr>
+          							<th>{{Device.ProductSupport.Task17_Name}}</th>
+							<th>{{Device.ProductSupport.Task17_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductSupport.Task17_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductSupport.Task17_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts17_PS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ProductSupport.Task18_Name%}
+
+      <tr>
+          							<th>{{Device.ProductSupport.Task18_Name}}</th>
+							<th>{{Device.ProductSupport.Task18_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductSupport.Task18_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductSupport.Task18_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts18_PS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ProductSupport.Task19_Name%}
+
+      <tr>
+          							<th>{{Device.ProductSupport.Task19_Name}}</th>
+							<th>{{Device.ProductSupport.Task19_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductSupport.Task19_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductSupport.Task19_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts19_PS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ProductSupport.Task20_Name%}
+
+      <tr>
+          							<th>{{Device.ProductSupport.Task20_Name}}</th>
+							<th>{{Device.ProductSupport.Task20_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductSupport.Task20_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ProductSupport.Task20_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts20_PS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+
+                              <tr>
+                            <th rowspan={{Active_W}}>Warehouse</th>
+							<th rowspan={{Active_W}}>{{Device.Warehouse.Poc1}} and {{Device.Warehouse.poc2}}</th>
+                            {% if Device.Warehouse.Task1_Name %}
+							<th>{{Device.Warehouse.Task1_Name}}</th>
+							<th>{{Device.Warehouse.Task1_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Warehouse.Task1_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Warehouse.Task1_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts1_W%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+                            {% endif %}
+                            {% if Device.Warehouse.completed == 100 %}
+							<th rowspan={{Active_W}}>Completed</th>
+                            {% else%}
+                            <th rowspan={{Active_W}}>{{ Device.Warehouse.Status }}</th>
+                            {% endif %}
+							<th rowspan={{Active_W}}>{{ Device.Warehouse.completed }}</th>
+
+
+        </tr>
+
+            {% if Device.Warehouse.Task2_Name%}
+
+      <tr>
+          							<th>{{Device.Warehouse.Task2_Name}}</th>
+							<th>{{Device.Warehouse.Task2_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Warehouse.Task2_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Warehouse.Task2_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts2_W%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.Warehouse.Task3_Name%}
+
+      <tr>
+          							<th>{{Device.Warehouse.Task3_Name}}</th>
+							<th>{{Device.Warehouse.Task3_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Warehouse.Task3_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Warehouse.Task3_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts3_W%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.Warehouse.Task4_Name%}
+
+      <tr>
+          							<th>{{Device.Warehouse.Task4_Name}}</th>
+							<th>{{Device.Warehouse.Task4_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Warehouse.Task4_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Warehouse.Task4_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts4_W%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.Warehouse.Task5_Name%}
+
+      <tr>
+          							<th>{{Device.Warehouse.Task5_Name}}</th>
+							<th>{{Device.Warehouse.Task5_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Warehouse.Task5_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Warehouse.Task5_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts5_W%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.Warehouse.Task6_Name%}
+
+      <tr>
+          							<th>{{Device.Warehouse.Task6_Name}}</th>
+							<th>{{Device.Warehouse.Task6_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Warehouse.Task6_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Warehouse.Task6_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts6_W%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.Warehouse.Task7_Name%}
+
+      <tr>
+          							<th>{{Device.Warehouse.Task7_Name}}</th>
+							<th>{{Device.Warehouse.Task7_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Warehouse.Task7_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Warehouse.Task7_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts7_W%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.Warehouse.Task8_Name%}
+
+      <tr>
+          							<th>{{Device.Warehouse.Task8_Name}}</th>
+							<th>{{Device.Warehouse.Task8_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Warehouse.Task8_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Warehouse.Task8_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts8_W%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.Warehouse.Task9_Name%}
+
+      <tr>
+          							<th>{{Device.Warehouse.Task9_Name}}</th>
+							<th>{{Device.Warehouse.Task9_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Warehouse.Task9_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Warehouse.Task9_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts9_W%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.Warehouse.Task10_Name%}
+
+      <tr>
+          							<th>{{Device.Warehouse.Task10_Name}}</th>
+							<th>{{Device.Warehouse.Task10_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Warehouse.Task10_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Warehouse.Task10_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts10_W%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.Warehouse.Task11_Name%}
+
+      <tr>
+          							<th>{{Device.Warehouse.Task11_Name}}</th>
+							<th>{{Device.Warehouse.Task11_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Warehouse.Task11_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Warehouse.Task11_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts11_W%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.Warehouse.Task12_Name%}
+
+      <tr>
+          							<th>{{Device.Warehouse.Task12_Name}}</th>
+							<th>{{Device.Warehouse.Task12_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Warehouse.Task12_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Warehouse.Task12_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts12_W%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.Warehouse.Task13_Name%}
+
+      <tr>
+          							<th>{{Device.Warehouse.Task13_Name}}</th>
+							<th>{{Device.Warehouse.Task13_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Warehouse.Task13_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Warehouse.Task13_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts13_W%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.Warehouse.Task14_Name%}
+
+      <tr>
+          							<th>{{Device.Warehouse.Task14_Name}}</th>
+							<th>{{Device.Warehouse.Task14_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Warehouse.Task14_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Warehouse.Task14_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts14_W%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.Warehouse.Task15_Name%}
+
+      <tr>
+          							<th>{{Device.Warehouse.Task15_Name}}</th>
+							<th>{{Device.Warehouse.Task15_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Warehouse.Task15_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Warehouse.Task15_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts15_W%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.Warehouse.Task16_Name%}
+
+      <tr>
+          							<th>{{Device.Warehouse.Task16_Name}}</th>
+							<th>{{Device.Warehouse.Task16_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Warehouse.Task16_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Warehouse.Task16_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts16_W%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.Warehouse.Task17_Name%}
+
+      <tr>
+          							<th>{{Device.Warehouse.Task17_Name}}</th>
+							<th>{{Device.Warehouse.Task17_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Warehouse.Task17_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Warehouse.Task17_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts17_W%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.Warehouse.Task18_Name%}
+
+      <tr>
+          							<th>{{Device.Warehouse.Task18_Name}}</th>
+							<th>{{Device.Warehouse.Task18_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Warehouse.Task18_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Warehouse.Task18_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts18_W%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.Warehouse.Task19_Name%}
+
+      <tr>
+          							<th>{{Device.Warehouse.Task19_Name}}</th>
+							<th>{{Device.Warehouse.Task19_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Warehouse.Task19_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Warehouse.Task19_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts19_W%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.Warehouse.Task20_Name%}
+
+      <tr>
+          							<th>{{Device.Warehouse.Task20_Name}}</th>
+							<th>{{Device.Warehouse.Task20_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Warehouse.Task20_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Warehouse.Task20_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts20_W%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+                              <tr>
+                            <th rowspan={{Active_FS}}>Field Service</th>
+							<th rowspan={{Active_FS}}>{{Device.FieldService.Poc1}} and {{Device.FieldService.poc2}}</th>
+                            {% if Device.FieldService.Task1_Name %}
+							<th>{{Device.FieldService.Task1_Name}}</th>
+							<th>{{Device.FieldService.Task1_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.FieldService.Task1_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.FieldService.Task1_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts1_FS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+                            {% endif %}
+                            {% if Device.FieldService.completed == 100 %}
+							<th rowspan={{Active_FS}}>Completed</th>
+                            {% else%}
+                            <th rowspan={{Active_FS}}>{{ Device.FieldService.Status }}</th>
+                            {% endif %}
+							<th rowspan={{Active_FS}}>{{ Device.FieldService.completed }}</th>
+
+
+        </tr>
+
+            {% if Device.FieldService.Task2_Name%}
+
+      <tr>
+          							<th>{{Device.FieldService.Task2_Name}}</th>
+							<th>{{Device.FieldService.Task2_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.FieldService.Task2_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.FieldService.Task2_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts2_FS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.FieldService.Task3_Name%}
+
+      <tr>
+          							<th>{{Device.FieldService.Task3_Name}}</th>
+							<th>{{Device.FieldService.Task3_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.FieldService.Task3_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.FieldService.Task3_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts3_FS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.FieldService.Task4_Name%}
+
+      <tr>
+          							<th>{{Device.FieldService.Task4_Name}}</th>
+							<th>{{Device.FieldService.Task4_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.FieldService.Task4_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.FieldService.Task4_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts4_FS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.FieldService.Task5_Name%}
+
+      <tr>
+          							<th>{{Device.FieldService.Task5_Name}}</th>
+							<th>{{Device.FieldService.Task5_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.FieldService.Task5_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.FieldService.Task5_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts5_FS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.FieldService.Task6_Name%}
+
+      <tr>
+          							<th>{{Device.FieldService.Task6_Name}}</th>
+							<th>{{Device.FieldService.Task6_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.FieldService.Task6_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.FieldService.Task6_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts6_FS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.FieldService.Task7_Name%}
+
+      <tr>
+          							<th>{{Device.FieldService.Task7_Name}}</th>
+							<th>{{Device.FieldService.Task7_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.FieldService.Task7_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.FieldService.Task7_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts7_FS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.FieldService.Task8_Name%}
+
+      <tr>
+          							<th>{{Device.FieldService.Task8_Name}}</th>
+							<th>{{Device.FieldService.Task8_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.FieldService.Task8_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.FieldService.Task8_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts8_FS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.FieldService.Task9_Name%}
+
+      <tr>
+          							<th>{{Device.FieldService.Task9_Name}}</th>
+							<th>{{Device.FieldService.Task9_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.FieldService.Task9_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.FieldService.Task9_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts9_FS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.FieldService.Task10_Name%}
+
+      <tr>
+          							<th>{{Device.FieldService.Task10_Name}}</th>
+							<th>{{Device.FieldService.Task10_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.FieldService.Task10_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.FieldService.Task10_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts10_FS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.FieldService.Task11_Name%}
+
+      <tr>
+          							<th>{{Device.FieldService.Task11_Name}}</th>
+							<th>{{Device.FieldService.Task11_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.FieldService.Task11_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.FieldService.Task11_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts11_FS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.FieldService.Task12_Name%}
+
+      <tr>
+          							<th>{{Device.FieldService.Task12_Name}}</th>
+							<th>{{Device.FieldService.Task12_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.FieldService.Task12_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.FieldService.Task12_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts12_FS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.FieldService.Task13_Name%}
+
+      <tr>
+          							<th>{{Device.FieldService.Task13_Name}}</th>
+							<th>{{Device.FieldService.Task13_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.FieldService.Task13_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.FieldService.Task13_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts13_FS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.FieldService.Task14_Name%}
+
+      <tr>
+          							<th>{{Device.FieldService.Task14_Name}}</th>
+							<th>{{Device.FieldService.Task14_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.FieldService.Task14_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.FieldService.Task14_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts14_FS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.FieldService.Task15_Name%}
+
+      <tr>
+          							<th>{{Device.FieldService.Task15_Name}}</th>
+							<th>{{Device.FieldService.Task15_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.FieldService.Task15_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.FieldService.Task15_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts15_FS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.FieldService.Task16_Name%}
+
+      <tr>
+          							<th>{{Device.FieldService.Task16_Name}}</th>
+							<th>{{Device.FieldService.Task16_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.FieldService.Task16_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.FieldService.Task16_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts16_FS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.FieldService.Task17_Name%}
+
+      <tr>
+          							<th>{{Device.FieldService.Task17_Name}}</th>
+							<th>{{Device.FieldService.Task17_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.FieldService.Task17_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.FieldService.Task17_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts17_FS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.FieldService.Task18_Name%}
+
+      <tr>
+          							<th>{{Device.FieldService.Task18_Name}}</th>
+							<th>{{Device.FieldService.Task18_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.FieldService.Task18_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.FieldService.Task18_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts18_FS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.FieldService.Task19_Name%}
+
+      <tr>
+          							<th>{{Device.FieldService.Task19_Name}}</th>
+							<th>{{Device.FieldService.Task19_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.FieldService.Task19_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.FieldService.Task19_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts19_FS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.FieldService.Task20_Name%}
+
+      <tr>
+          							<th>{{Device.FieldService.Task20_Name}}</th>
+							<th>{{Device.FieldService.Task20_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.FieldService.Task20_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.FieldService.Task20_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts20_FS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+                              <tr>
+                            <th rowspan={{Active_TS}}>Tech Support</th>
+							<th rowspan={{Active_TS}}>{{Device.TechSupport.Poc1}} and {{Device.TechSupport.poc2}}</th>
+                            {% if Device.TechSupport.Task1_Name %}
+							<th>{{Device.TechSupport.Task1_Name}}</th>
+							<th>{{Device.TechSupport.Task1_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.TechSupport.Task1_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.TechSupport.Task1_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts1_TS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+                            {% endif %}
+                            {% if Device.TechSupport.completed == 100 %}
+							<th rowspan={{Active_TS}}>Completed</th>
+                            {% else%}
+                            <th rowspan={{Active_TS}}>{{ Device.TechSupport.Status }}</th>
+                            {% endif %}
+							<th rowspan={{Active_TS}}>{{ Device.TechSupport.completed }}</th>
+
+
+        </tr>
+
+            {% if Device.TechSupport.Task2_Name%}
+
+      <tr>
+          							<th>{{Device.TechSupport.Task2_Name}}</th>
+							<th>{{Device.TechSupport.Task2_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.TechSupport.Task2_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.TechSupport.Task2_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts2_TS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.TechSupport.Task3_Name%}
+
+      <tr>
+          							<th>{{Device.TechSupport.Task3_Name}}</th>
+							<th>{{Device.TechSupport.Task3_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.TechSupport.Task3_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.TechSupport.Task3_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts3_TS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.TechSupport.Task4_Name%}
+
+      <tr>
+          							<th>{{Device.TechSupport.Task4_Name}}</th>
+							<th>{{Device.TechSupport.Task4_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.TechSupport.Task4_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.TechSupport.Task4_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts4_TS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.TechSupport.Task5_Name%}
+
+      <tr>
+          							<th>{{Device.TechSupport.Task5_Name}}</th>
+							<th>{{Device.TechSupport.Task5_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.TechSupport.Task5_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.TechSupport.Task5_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts5_TS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.TechSupport.Task6_Name%}
+
+      <tr>
+          							<th>{{Device.TechSupport.Task6_Name}}</th>
+							<th>{{Device.TechSupport.Task6_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.TechSupport.Task6_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.TechSupport.Task6_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts6_TS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.TechSupport.Task7_Name%}
+
+      <tr>
+          							<th>{{Device.TechSupport.Task7_Name}}</th>
+							<th>{{Device.TechSupport.Task7_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.TechSupport.Task7_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.TechSupport.Task7_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts7_TS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.TechSupport.Task8_Name%}
+
+      <tr>
+          							<th>{{Device.TechSupport.Task8_Name}}</th>
+							<th>{{Device.TechSupport.Task8_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.TechSupport.Task8_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.TechSupport.Task8_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts8_TS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.TechSupport.Task9_Name%}
+
+      <tr>
+          							<th>{{Device.TechSupport.Task9_Name}}</th>
+							<th>{{Device.TechSupport.Task9_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.TechSupport.Task9_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.TechSupport.Task9_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts9_TS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.TechSupport.Task10_Name%}
+
+      <tr>
+          							<th>{{Device.TechSupport.Task10_Name}}</th>
+							<th>{{Device.TechSupport.Task10_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.TechSupport.Task10_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.TechSupport.Task10_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts10_TS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.TechSupport.Task11_Name%}
+
+      <tr>
+          							<th>{{Device.TechSupport.Task11_Name}}</th>
+							<th>{{Device.TechSupport.Task11_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.TechSupport.Task11_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.TechSupport.Task11_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts11_TS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.TechSupport.Task12_Name%}
+
+      <tr>
+          							<th>{{Device.TechSupport.Task12_Name}}</th>
+							<th>{{Device.TechSupport.Task12_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.TechSupport.Task12_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.TechSupport.Task12_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts12_TS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.TechSupport.Task13_Name%}
+
+      <tr>
+          							<th>{{Device.TechSupport.Task13_Name}}</th>
+							<th>{{Device.TechSupport.Task13_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.TechSupport.Task13_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.TechSupport.Task13_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts13_TS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.TechSupport.Task14_Name%}
+
+      <tr>
+          							<th>{{Device.TechSupport.Task14_Name}}</th>
+							<th>{{Device.TechSupport.Task14_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.TechSupport.Task14_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.TechSupport.Task14_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts14_TS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.TechSupport.Task15_Name%}
+
+      <tr>
+          							<th>{{Device.TechSupport.Task15_Name}}</th>
+							<th>{{Device.TechSupport.Task15_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.TechSupport.Task15_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.TechSupport.Task15_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts15_TS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.TechSupport.Task16_Name%}
+
+      <tr>
+          							<th>{{Device.TechSupport.Task16_Name}}</th>
+							<th>{{Device.TechSupport.Task16_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.TechSupport.Task16_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.TechSupport.Task16_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts16_TS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.TechSupport.Task17_Name%}
+
+      <tr>
+          							<th>{{Device.TechSupport.Task17_Name}}</th>
+							<th>{{Device.TechSupport.Task17_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.TechSupport.Task17_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.TechSupport.Task17_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts17_TS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.TechSupport.Task18_Name%}
+
+      <tr>
+          							<th>{{Device.TechSupport.Task18_Name}}</th>
+							<th>{{Device.TechSupport.Task18_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.TechSupport.Task18_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.TechSupport.Task18_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts18_TS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.TechSupport.Task19_Name%}
+
+      <tr>
+          							<th>{{Device.TechSupport.Task19_Name}}</th>
+							<th>{{Device.TechSupport.Task19_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.TechSupport.Task19_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.TechSupport.Task19_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts19_TS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.TechSupport.Task20_Name%}
+
+      <tr>
+          							<th>{{Device.TechSupport.Task20_Name}}</th>
+							<th>{{Device.TechSupport.Task20_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.TechSupport.Task20_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.TechSupport.Task20_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts20_TS%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+
+                              <tr>
+                            <th rowspan={{Active_SM}}>Service Marketing</th>
+							<th rowspan={{Active_SM}}>{{Device.ServiceMarketing.Poc1}} and {{Device.ServiceMarketing.poc2}}</th>
+                            {% if Device.ServiceMarketing.Task1_Name %}
+							<th>{{Device.ServiceMarketing.Task1_Name}}</th>
+							<th>{{Device.ServiceMarketing.Task1_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceMarketing.Task1_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceMarketing.Task1_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts1_SM%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+                            {% endif %}
+                            {% if Device.ServiceMarketing.completed == 100 %}
+							<th rowspan={{Active_SM}}>Completed</th>
+                            {% else%}
+                            <th rowspan={{Active_SM}}>{{ Device.ServiceMarketing.Status }}</th>
+                            {% endif %}
+							<th rowspan={{Active_SM}}>{{ Device.ServiceMarketing.completed }}</th>
+
+
+        </tr>
+
+            {% if Device.ServiceMarketing.Task2_Name%}
+
+      <tr>
+          							<th>{{Device.ServiceMarketing.Task2_Name}}</th>
+							<th>{{Device.ServiceMarketing.Task2_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceMarketing.Task2_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceMarketing.Task2_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts2_SM%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ServiceMarketing.Task3_Name%}
+
+      <tr>
+          							<th>{{Device.ServiceMarketing.Task3_Name}}</th>
+							<th>{{Device.ServiceMarketing.Task3_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceMarketing.Task3_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceMarketing.Task3_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts3_SM%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ServiceMarketing.Task4_Name%}
+
+      <tr>
+          							<th>{{Device.ServiceMarketing.Task4_Name}}</th>
+							<th>{{Device.ServiceMarketing.Task4_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceMarketing.Task4_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceMarketing.Task4_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts4_SM%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ServiceMarketing.Task5_Name%}
+
+      <tr>
+          							<th>{{Device.ServiceMarketing.Task5_Name}}</th>
+							<th>{{Device.ServiceMarketing.Task5_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceMarketing.Task5_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceMarketing.Task5_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts5_SM%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ServiceMarketing.Task6_Name%}
+
+      <tr>
+          							<th>{{Device.ServiceMarketing.Task6_Name}}</th>
+							<th>{{Device.ServiceMarketing.Task6_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceMarketing.Task6_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceMarketing.Task6_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts6_SM%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ServiceMarketing.Task7_Name%}
+
+      <tr>
+          							<th>{{Device.ServiceMarketing.Task7_Name}}</th>
+							<th>{{Device.ServiceMarketing.Task7_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceMarketing.Task7_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceMarketing.Task7_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts7_SM%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ServiceMarketing.Task8_Name%}
+
+      <tr>
+          							<th>{{Device.ServiceMarketing.Task8_Name}}</th>
+							<th>{{Device.ServiceMarketing.Task8_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceMarketing.Task8_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceMarketing.Task8_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts8_SM%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ServiceMarketing.Task9_Name%}
+
+      <tr>
+          							<th>{{Device.ServiceMarketing.Task9_Name}}</th>
+							<th>{{Device.ServiceMarketing.Task9_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceMarketing.Task9_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceMarketing.Task9_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts9_SM%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ServiceMarketing.Task10_Name%}
+
+      <tr>
+          							<th>{{Device.ServiceMarketing.Task10_Name}}</th>
+							<th>{{Device.ServiceMarketing.Task10_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceMarketing.Task10_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceMarketing.Task10_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts10_SM%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ServiceMarketing.Task11_Name%}
+
+      <tr>
+          							<th>{{Device.ServiceMarketing.Task11_Name}}</th>
+							<th>{{Device.ServiceMarketing.Task11_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceMarketing.Task11_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceMarketing.Task11_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts11_SM%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ServiceMarketing.Task12_Name%}
+
+      <tr>
+          							<th>{{Device.ServiceMarketing.Task12_Name}}</th>
+							<th>{{Device.ServiceMarketing.Task12_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceMarketing.Task12_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceMarketing.Task12_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts12_SM%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ServiceMarketing.Task13_Name%}
+
+      <tr>
+          							<th>{{Device.ServiceMarketing.Task13_Name}}</th>
+							<th>{{Device.ServiceMarketing.Task13_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceMarketing.Task13_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceMarketing.Task13_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts13_SM%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ServiceMarketing.Task14_Name%}
+
+      <tr>
+          							<th>{{Device.ServiceMarketing.Task14_Name}}</th>
+							<th>{{Device.ServiceMarketing.Task14_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceMarketing.Task14_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceMarketing.Task14_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts14_SM%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ServiceMarketing.Task15_Name%}
+
+      <tr>
+          							<th>{{Device.ServiceMarketing.Task15_Name}}</th>
+							<th>{{Device.ServiceMarketing.Task15_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceMarketing.Task15_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceMarketing.Task15_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts15_SM%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ServiceMarketing.Task16_Name%}
+
+      <tr>
+          							<th>{{Device.ServiceMarketing.Task16_Name}}</th>
+							<th>{{Device.ServiceMarketing.Task16_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceMarketing.Task16_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceMarketing.Task16_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts16_SM%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ServiceMarketing.Task17_Name%}
+
+      <tr>
+          							<th>{{Device.ServiceMarketing.Task17_Name}}</th>
+							<th>{{Device.ServiceMarketing.Task17_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceMarketing.Task17_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceMarketing.Task17_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts17_SM%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ServiceMarketing.Task18_Name%}
+
+      <tr>
+          							<th>{{Device.ServiceMarketing.Task18_Name}}</th>
+							<th>{{Device.ServiceMarketing.Task18_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceMarketing.Task18_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceMarketing.Task18_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts18_SM%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ServiceMarketing.Task19_Name%}
+
+      <tr>
+          							<th>{{Device.ServiceMarketing.Task19_Name}}</th>
+							<th>{{Device.ServiceMarketing.Task19_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceMarketing.Task19_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceMarketing.Task19_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts19_SM%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ServiceMarketing.Task20_Name%}
+
+      <tr>
+          							<th>{{Device.ServiceMarketing.Task20_Name}}</th>
+							<th>{{Device.ServiceMarketing.Task20_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceMarketing.Task20_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceMarketing.Task20_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts20_SM%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+
+                              <tr>
+                            <th rowspan={{Active_ST}}>Service Training</th>
+							<th rowspan={{Active_ST}}>{{Device.ServiceTraining.Poc1}} and {{Device.ServiceTraining.poc2}}</th>
+                            {% if Device.ServiceTraining.Task1_Name %}
+							<th>{{Device.ServiceTraining.Task1_Name}}</th>
+							<th>{{Device.ServiceTraining.Task1_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceTraining.Task1_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceTraining.Task1_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts1_ST%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+                            {% endif %}
+                            {% if Device.ServiceTraining.completed == 100 %}
+							<th rowspan={{Active_ST}}>Completed</th>
+                            {% else%}
+                            <th rowspan={{Active_ST}}>{{ Device.ServiceTraining.Status }}</th>
+                            {% endif %}
+							<th rowspan={{Active_ST}}>{{ Device.ServiceTraining.completed }}</th>
+
+
+        </tr>
+
+            {% if Device.ServiceTraining.Task2_Name%}
+
+      <tr>
+          							<th>{{Device.ServiceTraining.Task2_Name}}</th>
+							<th>{{Device.ServiceTraining.Task2_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceTraining.Task2_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceTraining.Task2_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts2_ST%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ServiceTraining.Task3_Name%}
+
+      <tr>
+          							<th>{{Device.ServiceTraining.Task3_Name}}</th>
+							<th>{{Device.ServiceTraining.Task3_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceTraining.Task3_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceTraining.Task3_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts3_ST%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ServiceTraining.Task4_Name%}
+
+      <tr>
+          							<th>{{Device.ServiceTraining.Task4_Name}}</th>
+							<th>{{Device.ServiceTraining.Task4_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceTraining.Task4_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceTraining.Task4_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts4_ST%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ServiceTraining.Task5_Name%}
+
+      <tr>
+          							<th>{{Device.ServiceTraining.Task5_Name}}</th>
+							<th>{{Device.ServiceTraining.Task5_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceTraining.Task5_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceTraining.Task5_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts5_ST%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ServiceTraining.Task6_Name%}
+
+      <tr>
+          							<th>{{Device.ServiceTraining.Task6_Name}}</th>
+							<th>{{Device.ServiceTraining.Task6_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceTraining.Task6_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceTraining.Task6_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts6_ST%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ServiceTraining.Task7_Name%}
+
+      <tr>
+          							<th>{{Device.ServiceTraining.Task7_Name}}</th>
+							<th>{{Device.ServiceTraining.Task7_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceTraining.Task7_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceTraining.Task7_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts7_ST%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ServiceTraining.Task8_Name%}
+
+      <tr>
+          							<th>{{Device.ServiceTraining.Task8_Name}}</th>
+							<th>{{Device.ServiceTraining.Task8_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceTraining.Task8_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceTraining.Task8_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts8_ST%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ServiceTraining.Task9_Name%}
+
+      <tr>
+          							<th>{{Device.ServiceTraining.Task9_Name}}</th>
+							<th>{{Device.ServiceTraining.Task9_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceTraining.Task9_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceTraining.Task9_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts9_ST%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ServiceTraining.Task10_Name%}
+
+      <tr>
+          							<th>{{Device.ServiceTraining.Task10_Name}}</th>
+							<th>{{Device.ServiceTraining.Task10_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceTraining.Task10_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceTraining.Task10_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts10_ST%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ServiceTraining.Task11_Name%}
+
+      <tr>
+          							<th>{{Device.ServiceTraining.Task11_Name}}</th>
+							<th>{{Device.ServiceTraining.Task11_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceTraining.Task11_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceTraining.Task11_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts11_ST%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ServiceTraining.Task12_Name%}
+
+      <tr>
+          							<th>{{Device.ServiceTraining.Task12_Name}}</th>
+							<th>{{Device.ServiceTraining.Task12_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceTraining.Task12_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceTraining.Task12_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts12_ST%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ServiceTraining.Task13_Name%}
+
+      <tr>
+          							<th>{{Device.ServiceTraining.Task13_Name}}</th>
+							<th>{{Device.ServiceTraining.Task13_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceTraining.Task13_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceTraining.Task13_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts13_ST%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ServiceTraining.Task14_Name%}
+
+      <tr>
+          							<th>{{Device.ServiceTraining.Task14_Name}}</th>
+							<th>{{Device.ServiceTraining.Task14_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceTraining.Task14_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceTraining.Task14_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts14_ST%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ServiceTraining.Task15_Name%}
+
+      <tr>
+          							<th>{{Device.ServiceTraining.Task15_Name}}</th>
+							<th>{{Device.ServiceTraining.Task15_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceTraining.Task15_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceTraining.Task15_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts15_ST%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ServiceTraining.Task16_Name%}
+
+      <tr>
+          							<th>{{Device.ServiceTraining.Task16_Name}}</th>
+							<th>{{Device.ServiceTraining.Task16_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceTraining.Task16_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceTraining.Task16_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts16_ST%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ServiceTraining.Task17_Name%}
+
+      <tr>
+          							<th>{{Device.ServiceTraining.Task17_Name}}</th>
+							<th>{{Device.ServiceTraining.Task17_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceTraining.Task17_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceTraining.Task17_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts17_ST%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ServiceTraining.Task18_Name%}
+
+      <tr>
+          							<th>{{Device.ServiceTraining.Task18_Name}}</th>
+							<th>{{Device.ServiceTraining.Task18_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceTraining.Task18_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceTraining.Task18_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts18_ST%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ServiceTraining.Task19_Name%}
+
+      <tr>
+          							<th>{{Device.ServiceTraining.Task19_Name}}</th>
+							<th>{{Device.ServiceTraining.Task19_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceTraining.Task19_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceTraining.Task19_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts19_ST%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.ServiceTraining.Task20_Name%}
+
+      <tr>
+          							<th>{{Device.ServiceTraining.Task20_Name}}</th>
+							<th>{{Device.ServiceTraining.Task20_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceTraining.Task20_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.ServiceTraining.Task20_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts20_ST%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+                              <tr>
+                            <th rowspan={{Active_P}}>Parts</th>
+							<th rowspan={{Active_P}}>{{Device.Parts.Poc1}} and {{Device.Parts.poc2}}</th>
+                            {% if Device.Parts.Task1_Name %}
+							<th>{{Device.Parts.Task1_Name}}</th>
+							<th>{{Device.Parts.Task1_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Parts.Task1_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Parts.Task1_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts1_P%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+                            {% endif %}
+                            {% if Device.Parts.completed == 100 %}
+							<th rowspan={{Active_P}}>Completed</th>
+                            {% else%}
+                            <th rowspan={{Active_P}}>{{ Device.Parts.Status }}</th>
+                            {% endif %}
+							<th rowspan={{Active_P}}>{{ Device.Parts.completed }}</th>
+
+
+        </tr>
+
+            {% if Device.Parts.Task2_Name%}
+
+      <tr>
+          							<th>{{Device.Parts.Task2_Name}}</th>
+							<th>{{Device.Parts.Task2_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Parts.Task2_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Parts.Task2_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts2_P%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.Parts.Task3_Name%}
+
+      <tr>
+          							<th>{{Device.Parts.Task3_Name}}</th>
+							<th>{{Device.Parts.Task3_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Parts.Task3_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Parts.Task3_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts3_P%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.Parts.Task4_Name%}
+
+      <tr>
+          							<th>{{Device.Parts.Task4_Name}}</th>
+							<th>{{Device.Parts.Task4_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Parts.Task4_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Parts.Task4_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts4_P%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.Parts.Task5_Name%}
+
+      <tr>
+          							<th>{{Device.Parts.Task5_Name}}</th>
+							<th>{{Device.Parts.Task5_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Parts.Task5_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Parts.Task5_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts5_P%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.Parts.Task6_Name%}
+
+      <tr>
+          							<th>{{Device.Parts.Task6_Name}}</th>
+							<th>{{Device.Parts.Task6_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Parts.Task6_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Parts.Task6_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts6_P%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.Parts.Task7_Name%}
+
+      <tr>
+          							<th>{{Device.Parts.Task7_Name}}</th>
+							<th>{{Device.Parts.Task7_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Parts.Task7_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Parts.Task7_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts7_P%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.Parts.Task8_Name%}
+
+      <tr>
+          							<th>{{Device.Parts.Task8_Name}}</th>
+							<th>{{Device.Parts.Task8_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Parts.Task8_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Parts.Task8_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts8_P%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.Parts.Task9_Name%}
+
+      <tr>
+          							<th>{{Device.Parts.Task9_Name}}</th>
+							<th>{{Device.Parts.Task9_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Parts.Task9_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Parts.Task9_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts9_P%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.Parts.Task10_Name%}
+
+      <tr>
+          							<th>{{Device.Parts.Task10_Name}}</th>
+							<th>{{Device.Parts.Task10_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Parts.Task10_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Parts.Task10_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts10_P%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.Parts.Task11_Name%}
+
+      <tr>
+          							<th>{{Device.Parts.Task11_Name}}</th>
+							<th>{{Device.Parts.Task11_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Parts.Task11_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Parts.Task11_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts11_P%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.Parts.Task12_Name%}
+
+      <tr>
+          							<th>{{Device.Parts.Task12_Name}}</th>
+							<th>{{Device.Parts.Task12_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Parts.Task12_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Parts.Task12_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts12_P%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.Parts.Task13_Name%}
+
+      <tr>
+          							<th>{{Device.Parts.Task13_Name}}</th>
+							<th>{{Device.Parts.Task13_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Parts.Task13_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Parts.Task13_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts13_P%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.Parts.Task14_Name%}
+
+      <tr>
+          							<th>{{Device.Parts.Task14_Name}}</th>
+							<th>{{Device.Parts.Task14_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Parts.Task14_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Parts.Task14_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts14_P%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.Parts.Task15_Name%}
+
+      <tr>
+          							<th>{{Device.Parts.Task15_Name}}</th>
+							<th>{{Device.Parts.Task15_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Parts.Task15_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Parts.Task15_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts15_P%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.Parts.Task16_Name%}
+
+      <tr>
+          							<th>{{Device.Parts.Task16_Name}}</th>
+							<th>{{Device.Parts.Task16_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Parts.Task16_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Parts.Task16_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts16_P%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.Parts.Task17_Name%}
+
+      <tr>
+          							<th>{{Device.Parts.Task17_Name}}</th>
+							<th>{{Device.Parts.Task17_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Parts.Task17_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Parts.Task17_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts17_P%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.Parts.Task18_Name%}
+
+      <tr>
+          							<th>{{Device.Parts.Task18_Name}}</th>
+							<th>{{Device.Parts.Task18_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Parts.Task18_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Parts.Task18_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts18_P%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.Parts.Task19_Name%}
+
+      <tr>
+          							<th>{{Device.Parts.Task19_Name}}</th>
+							<th>{{Device.Parts.Task19_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Parts.Task19_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Parts.Task19_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts19_P%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+            {% if Device.Parts.Task20_Name%}
+
+      <tr>
+          							<th>{{Device.Parts.Task20_Name}}</th>
+							<th>{{Device.Parts.Task20_Start_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Parts.Task20_End_Date|date:"m-d-y"}}</th>
+							<th>{{Device.Parts.Task20_complete_date|date:"m-d-y"}}</th>
+                            <th>
+                                <p>{%for post in posts20_P%}
+                                {{ post.created|date:"m-d" }} <font color="#0000cc">
+                              ({{ post.user.get_username}}):</font>
+                              {{ post.post }}{% endfor %}</p>
+                            </th>
+
+      </tr>
+      {% endif %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}

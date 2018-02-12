@@ -1,0 +1,193 @@
+{% extends 'base.html' %}
+{% block head %}
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style>
+.dropdown-submenu {
+    position: relative;
+}
+
+.dropdown-submenu .dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-top: -1px;
+}
+</style>
+{% endblock %}
+{% block body %}
+
+<div class="container">
+  <h2>Multi-Level Dropdowns</h2>
+  <p>In this example, we have created a .dropdown-submenu class for multi-level dropdowns (see style section above).</p>
+  <p>Note that we have added jQuery to open the multi-level dropdown on click (see script section below).</p>
+  <div class="dropdown">
+    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Tutorials
+    <span class="caret"></span></button>
+    <ul class="dropdown-menu">
+      <li><a tabindex="-1" href="#">HTML</a></li>
+      <li><a tabindex="-1" href="#">CSS</a></li>
+      <li class="dropdown-submenu">
+        <a class="test" tabindex="-1" href="#">New dropdown <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a tabindex="-1" href="#">2nd level dropdown</a></li>
+          <li><a tabindex="-1" href="#">2nd level dropdown</a></li>
+          <li class="dropdown-submenu">
+            <a class="test" href="#">Another dropdown <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">3rd level dropdown</a></li>
+              <li><a href="#">3rd level dropdown</a></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>
+                    <!--{% if user.is_superuser%}-->
+                  <!--<div class="dropdown">-->
+    <!--<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Add Dependency Task-->
+    <!--<span class="caret"></span></button>-->
+    <!--<ul class="dropdown-menu">-->
+      <!--<li class="dropdown-submenu">-->
+
+            <!--<a class="test" href="#">Product Readiness <span class="caret"></span></a>-->
+            <!--<ul class="dropdown-menu">-->
+                                <!--{%if devices.ProductReadiness.Task2_Name %}-->
+              <!--<li><a href="#">{{devices.ProductReadiness.Task2_Name}}</a></li>-->
+                <!--{% endif %}-->
+                                <!--{%if devices.ProductReadiness.Task3_Name %}-->
+              <!--<li><a href="#">{{devices.ProductReadiness.Task3_Name}}</a></li>-->
+                <!--{% endif %}-->
+                                <!--{%if devices.ProductReadiness.Task4_Name %}-->
+              <!--<li><a href="#">{{devices.ProductReadiness.Task4_Name}}</a></li>-->
+                <!--{% endif %}-->
+                                <!--{%if devices.ProductReadiness.Task5_Name %}-->
+              <!--<li><a href="#">{{devices.ProductReadiness.Task5_Name}}</a></li>-->
+                <!--{% endif %}-->
+                                <!--{%if devices.ProductReadiness.Task6_Name %}-->
+              <!--<li><a href="#">{{devices.ProductReadiness.Task6_Name}}</a></li>-->
+                <!--{% endif %}-->
+                                <!--{%if devices.ProductReadiness.Task7_Name %}-->
+              <!--<li><a href="#">{{devices.ProductReadiness.Task7_Name}}</a></li>-->
+                <!--{% endif %}-->
+                                <!--{%if devices.ProductReadiness.Task8_Name %}-->
+              <!--<li><a href="#">{{devices.ProductReadiness.Task8_Name}}</a></li>-->
+                <!--{% endif %}-->
+                                <!--{%if devices.ProductReadiness.Task9_Name %}-->
+              <!--<li><a href="#">{{devices.ProductReadiness.Task9_Name}}</a></li>-->
+                <!--{% endif %}-->
+                                <!--{%if devices.ProductReadiness.Task10_Name %}-->
+              <!--<li><a href="#">{{devices.ProductReadiness.Task10_Name}}</a></li>-->
+                <!--{% endif %}-->
+                                <!--{%if devices.ProductReadiness.Task11_Name %}-->
+              <!--<li><a href="#">{{devices.ProductReadiness.Task11_Name}}</a></li>-->
+                <!--{% endif %}-->
+                                <!--{%if devices.ProductReadiness.Task12_Name %}-->
+              <!--<li><a href="#">{{devices.ProductReadiness.Task12_Name}}</a></li>-->
+                <!--{% endif %}-->
+                                <!--{%if devices.ProductReadiness.Task13_Name %}-->
+              <!--<li><a href="#">{{devices.ProductReadiness.Task13_Name}}</a></li>-->
+                <!--{% endif %}-->
+                                <!--{%if devices.ProductReadiness.Task14_Name %}-->
+              <!--<li><a href="#">{{devices.ProductReadiness.Task14_Name}}</a></li>-->
+                <!--{% endif %}-->
+                                <!--{%if devices.ProductReadiness.Task15_Name %}-->
+              <!--<li><a href="#">{{devices.ProductReadiness.Task15_Name}}</a></li>-->
+                <!--{% endif %}-->
+                                <!--{%if devices.ProductReadiness.Task16_Name %}-->
+              <!--<li><a href="#">{{devices.ProductReadiness.Task16_Name}}</a></li>-->
+                <!--{% endif %}-->
+                                <!--{%if devices.ProductReadiness.Task17_Name %}-->
+              <!--<li><a href="#">{{devices.ProductReadiness.Task17_Name}}</a></li>-->
+                <!--{% endif %}-->
+                                <!--{%if devices.ProductReadiness.Task18_Name %}-->
+              <!--<li><a href="#">{{devices.ProductReadiness.Task18_Name}}</a></li>-->
+                <!--{% endif %}-->
+                                <!--{%if devices.ProductReadiness.Task19_Name %}-->
+                <!--<li><a href="#">{{devices.ProductReadiness.Task19_Name}}</a></li>-->
+                <!--{% endif %}-->
+                <!--{%if devices.ProductReadiness.Task20_Name %}-->
+                <!--<li><a href="#">{{devices.ProductReadiness.Task20_Name}}</a></li>-->
+                <!--{% endif %}-->
+            <!--</ul>-->
+      <!--</li>-->
+        <!--<li class="dropdown-submenu">-->
+
+            <!--<a class="test" href="#">Product Readiness <span class="caret"></span></a>-->
+            <!--<ul class="dropdown-menu">-->
+                                <!--{%if devices.ProductReadiness.Task2_Name %}-->
+              <!--<li><a href="#">{{devices.ProductReadiness.Task2_Name}}</a></li>-->
+                <!--{% endif %}-->
+                                <!--{%if devices.ProductReadiness.Task3_Name %}-->
+              <!--<li><a href="#">{{devices.ProductReadiness.Task3_Name}}</a></li>-->
+                <!--{% endif %}-->
+                                <!--{%if devices.ProductReadiness.Task4_Name %}-->
+              <!--<li><a href="#">{{devices.ProductReadiness.Task4_Name}}</a></li>-->
+                <!--{% endif %}-->
+                                <!--{%if devices.ProductReadiness.Task5_Name %}-->
+              <!--<li><a href="#">{{devices.ProductReadiness.Task5_Name}}</a></li>-->
+                <!--{% endif %}-->
+                                <!--{%if devices.ProductReadiness.Task6_Name %}-->
+              <!--<li><a href="#">{{devices.ProductReadiness.Task6_Name}}</a></li>-->
+                <!--{% endif %}-->
+                                <!--{%if devices.ProductReadiness.Task7_Name %}-->
+              <!--<li><a href="#">{{devices.ProductReadiness.Task7_Name}}</a></li>-->
+                <!--{% endif %}-->
+                                <!--{%if devices.ProductReadiness.Task8_Name %}-->
+              <!--<li><a href="#">{{devices.ProductReadiness.Task8_Name}}</a></li>-->
+                <!--{% endif %}-->
+                                <!--{%if devices.ProductReadiness.Task9_Name %}-->
+              <!--<li><a href="#">{{devices.ProductReadiness.Task9_Name}}</a></li>-->
+                <!--{% endif %}-->
+                                <!--{%if devices.ProductReadiness.Task10_Name %}-->
+              <!--<li><a href="#">{{devices.ProductReadiness.Task10_Name}}</a></li>-->
+                <!--{% endif %}-->
+                                <!--{%if devices.ProductReadiness.Task11_Name %}-->
+              <!--<li><a href="#">{{devices.ProductReadiness.Task11_Name}}</a></li>-->
+                <!--{% endif %}-->
+                                <!--{%if devices.ProductReadiness.Task12_Name %}-->
+              <!--<li><a href="#">{{devices.ProductReadiness.Task12_Name}}</a></li>-->
+                <!--{% endif %}-->
+                                <!--{%if devices.ProductReadiness.Task13_Name %}-->
+              <!--<li><a href="#">{{devices.ProductReadiness.Task13_Name}}</a></li>-->
+                <!--{% endif %}-->
+                                <!--{%if devices.ProductReadiness.Task14_Name %}-->
+              <!--<li><a href="#">{{devices.ProductReadiness.Task14_Name}}</a></li>-->
+                <!--{% endif %}-->
+                                <!--{%if devices.ProductReadiness.Task15_Name %}-->
+              <!--<li><a href="#">{{devices.ProductReadiness.Task15_Name}}</a></li>-->
+                <!--{% endif %}-->
+                                <!--{%if devices.ProductReadiness.Task16_Name %}-->
+              <!--<li><a href="#">{{devices.ProductReadiness.Task16_Name}}</a></li>-->
+                <!--{% endif %}-->
+                                <!--{%if devices.ProductReadiness.Task17_Name %}-->
+              <!--<li><a href="#">{{devices.ProductReadiness.Task17_Name}}</a></li>-->
+                <!--{% endif %}-->
+                                <!--{%if devices.ProductReadiness.Task18_Name %}-->
+              <!--<li><a href="#">{{devices.ProductReadiness.Task18_Name}}</a></li>-->
+                <!--{% endif %}-->
+                                <!--{%if devices.ProductReadiness.Task19_Name %}-->
+                <!--<li><a href="#">{{devices.ProductReadiness.Task19_Name}}</a></li>-->
+                <!--{% endif %}-->
+                <!--{%if devices.ProductReadiness.Task20_Name %}-->
+                <!--<li><a href="#">{{devices.ProductReadiness.Task20_Name}}</a></li>-->
+                <!--{% endif %}-->
+            <!--</ul>-->
+      <!--</li>-->
+    <!--</ul>-->
+  <!--</div>-->
+                    <!--{% endif %}-->
+
+<script>
+$(document).ready(function(){
+  $('.dropdown-submenu a.test').on("click", function(e){
+    $(this).next('ul').toggle();
+    e.stopPropagation();
+    e.preventDefault();
+  });
+});
+</script>
+
+{% endblock %}

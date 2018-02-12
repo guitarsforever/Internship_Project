@@ -1,0 +1,356 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+{% block head %}
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
+    <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css"> -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedcolumns/3.2.2/css/fixedColumns.dataTables.min.css">
+<link rel="stylesheet" href="http://cdn.datatables.net/responsive/1.0.2/css/dataTables.responsive.css"/>
+<style type="text/css" class="init"> 	</style>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js">
+	</script>
+	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js">
+	</script>
+        <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/fixedcolumns/3.2.2/js/dataTables.fixedColumns.min.js">
+    </script>
+<script type="text/javascript" language="javascript" src="//cdn.datatables.net/responsive/1.0.2/js/dataTables.responsive.js"></script>
+	<script type="text/javascript" class="init">
+
+$(document).ready(function() {
+    $('#example').DataTable( {
+    } );
+} );
+
+	</script>
+
+<style>
+/* Tooltip container */
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+</style>
+
+<style>
+   table {
+        display: block;
+        overflow-x: auto;
+    }
+</style>
+{% endblock %}
+
+{%block content%}
+
+{%if perms.mobile.is_strategic %}
+<ul class="nav navbar-nav">
+    <li><a href="/mobile/">Strategic Projects</a></li>
+</ul>
+{% endif %}
+<ul class="nav navbar-nav">
+    <li><a href="/general/">Mobile</a></li>
+</ul>
+
+<ul class="nav navbar-nav">
+    <li><a href="/others/">Other Products</a></li>
+</ul>
+
+<ul class="nav navbar-nav navbar-right">
+    <li><a class="btn btn-secondary" href="/login/excel/">EXPORT TO XL</a></li>
+</ul>
+
+{% endblock %}
+
+{% block body %}
+    {% if announcement.post %}
+	  <div class="alert alert-info alert-dismissable fade in container-fluid">
+    <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Information:</strong> {{announcement.post}}
+  </div>
+    {% endif%}
+ <div class = "container-fluid">
+    <h1 align="center">PRODUCT LIST</h1>
+
+<table id="example" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+					<thead>
+						<tr>
+							<th>Product Description</th>
+							<th class="col-sm-1">Project</th>
+							<th>Target Launch Date</th>
+							<th>Overall% Ready</th>
+							<th>Product Type</th>
+							<th>Product Readiness</th>
+                            <th>.com - Video Content</th>
+							<th>.com - Digital Content</th>
+							<th>Call Center Training</th>
+							<th>Call Center Operations</th>
+							<th>Product Support</th>
+							<th>Warehouse - QC</th>
+							<th>Field Service</th>
+                            <th>Tech Support</th>
+							<th>Service Marketing</th>
+							<th>Service Training</th>
+							<th>Parts</th>
+						</tr>
+					</thead>
+					<tfoot>
+						<tr>
+							<th>Product Description</th>
+							<th class="col-sm-1">Project</th>
+							<th>Target Launch Date</th>
+							<th>Overall% Ready</th>
+                            <th>Product Type</th>
+							<th>Product Readiness</th>
+                            <th>.com - Video Content</th>
+							<th>.com - Digital Content</th>
+							<th>Call Center Training</th>
+							<th>Call Center Operations</th>
+							<th>Product Support</th>
+							<th>Warehouse - QC</th>
+							<th>Field Service</th>
+                            <th>Tech Support</th>
+							<th>Service Marketing</th>
+							<th>Service Training</th>
+							<th>Parts</th>
+						</tr>
+					</tfoot>
+					<tbody>
+                    {% for Device in Device %}
+                    {% if Device.Archive == False %}
+						<tr>
+							<td align="center"
+                            style="cursor:pointer">{{Device.ProductDescription}}</td>
+							<td class="col-sm-1" align="center" onclick="location.href='/login/summary/{{Device.id}}'"
+                            style="cursor:pointer">{{Device.Name}}</td>
+							<td align="center" onclick="location.href='/login/summary/{{Device.id}}'"
+                            style="cursor:pointer">{{Device.LaunchDate|date:"m-d-y"}}</td>
+                            {% if Device.completed == 0 %}
+                            <td align="center" onclick="location.href='/login/summary/{{Device.id}}'"
+                            style="cursor:pointer">Not Started</td>
+                            {% else %}
+							<td align="center" onclick="location.href='/login/summary/{{Device.id}}'"
+                            style="cursor:pointer">{{Device.completed}}</td>
+                            {% endif %}
+							<td align="center" onclick="location.href='/login/summary/{{Device.id}}'"
+                            style="cursor:pointer">{{Device.Device_Category}}</td>
+							<td align="center" onclick="location.href='/login/summary/{{Device.id}}/productreadiness'"
+                            style="cursor:pointer">
+                                {% if Device.ProductReadiness.completed == 100 %}
+                                <span class="glyphicon glyphicon-thumbs-up" data-toggle="tooltip" data-placement="top" title="Completed" style="color:green" aria-hidden="true"></span>
+                                {% else%}
+                                {% if Device.ProductReadiness.Status == "At Risk" %}
+                                <span class="glyphicon glyphicon-exclamation-sign"  style="color:orange" aria-hidden="true"></span>
+                                {% elif Device.ProductReadiness.Status == "Delayed" %}
+                                <span class="glyphicon glyphicon-minus-sign" style="color:red" aria-hidden="true"></span>
+                                {% else %}
+                                <span class="glyphicon glyphicon-ok-circle" style="color:blue" aria-hidden="true"></span>
+                                {% endif %}
+                                {% endif %}
+                            </td>
+                            <td align="center" onclick="location.href='/login/summary/{{Device.id}}/videocontent'"
+                            style="cursor:pointer">
+                                {% if Device.VideoContent.completed == 100 %}
+                                <span class="glyphicon glyphicon-thumbs-up" data-toggle="tooltip" data-placement="top" title="Completed" style="color:green" aria-hidden="true"></span>
+                                {% else%}
+                                {% if Device.VideoContent.Status == "At Risk" %}
+                                <span class="glyphicon glyphicon-exclamation-sign" style="color:orange" aria-hidden="true"></span>
+                                {% elif Device.VideoContent.Status == "Delayed" %}
+                                <span class="glyphicon glyphicon-minus-sign" style="color:red" aria-hidden="true"></span>
+                                {% else %}
+                                <span class="glyphicon glyphicon-ok-circle" style="color:blue" aria-hidden="true"></span>
+                                {% endif %}
+                                {% endif %}
+                            </td>
+                            <td align="center" onclick="location.href='/login/summary/{{Device.id}}/digitalcontent'"
+                            style="cursor:pointer">
+                                {% if Device.DigitalContent.completed == 100 %}
+                                <span class="glyphicon glyphicon-thumbs-up" data-toggle="tooltip" data-placement="top" title="Completed" style="color:green" aria-hidden="true"></span>
+                                {% else%}
+                                {% if Device.DigitalContent.Status == "At Risk" %}
+                                <span class="glyphicon glyphicon-exclamation-sign" style="color:orange" aria-hidden="true"></span>
+                                {% elif Device.DigitalContent.Status == "Delayed" %}
+                                <span class="glyphicon glyphicon-minus-sign" style="color:red" aria-hidden="true"></span>
+                                {% else %}
+                                <span class="glyphicon glyphicon-ok-circle" style="color:blue" aria-hidden="true"></span>
+                                {% endif %}
+                                {% endif %}
+                            </td>
+							<td align="center" onclick="location.href='/login/summary/{{Device.id}}/callcentertraining'"
+                            style="cursor:pointer">
+                                {% if Device.CallCenterTraining.completed == 100 %}
+                                <span class="glyphicon glyphicon-thumbs-up" data-toggle="tooltip" data-placement="top" title="Completed" style="color:green" aria-hidden="true"></span>
+                                {% else%}
+                                {% if Device.CallCenterTraining.Status == "At Risk" %}
+                                <span class="glyphicon glyphicon-exclamation-sign" style="color:orange" aria-hidden="true"></span>
+                                {% elif Device.CallCenterTraining.Status == "Delayed" %}
+                                <span class="glyphicon glyphicon-minus-sign" style="color:red" aria-hidden="true"></span>
+                                {% else %}
+                                <span class="glyphicon glyphicon-ok-circle" style="color:blue" aria-hidden="true"></span>
+                                {% endif %}
+                                {% endif %}
+                            </td>
+							<td align="center" onclick="location.href='/login/summary/{{Device.id}}/callcenteroperations'"
+                            style="cursor:pointer">
+                                {% if Device.CallCenterOpertaions.completed == 100 %}
+                                <span class="glyphicon glyphicon-thumbs-up" data-toggle="tooltip" data-placement="top" title="Completed" style="color:green" aria-hidden="true"></span>
+                                {% else%}
+                                {% if Device.CallCenterOpertaions.Status == "At Risk" %}
+                                <span class="glyphicon glyphicon-exclamation-sign" style="color:orange" aria-hidden="true"></span>
+                                {% elif Device.CallCenterOpertaions.Status == "Delayed" %}
+                                <span class="glyphicon glyphicon-minus-sign" style="color:red" aria-hidden="true"></span>
+                                {% else %}
+                                <span class="glyphicon glyphicon-ok-circle" style="color:blue" aria-hidden="true"></span>
+                                {% endif %}
+                                {% endif %}
+                            </td>
+							<td align="center" onclick="location.href='/login/summary/{{Device.id}}/productsupport'"
+                            style="cursor:pointer">
+                                {% if Device.ProductSupport.completed == 100 %}
+                                <span class="glyphicon glyphicon-thumbs-up" data-toggle="tooltip" data-placement="top" title="Completed" style="color:green" aria-hidden="true"></span>
+                                {% else%}
+                                {% if Device.ProductSupport.Status == "At Risk" %}
+                                <span class="glyphicon glyphicon-exclamation-sign" style="color:orange" aria-hidden="true"></span>
+                                {% elif Device.ProductSupport.Status == "Delayed" %}
+                                <span class="glyphicon glyphicon-minus-sign" style="color:red" aria-hidden="true"></span>
+                                {% else %}
+                                <span class="glyphicon glyphicon-ok-circle" style="color:blue" aria-hidden="true"></span>
+                                {% endif %}
+                                {% endif %}
+                            </td>
+							<td align="center" onclick="location.href='/login/summary/{{Device.id}}/warehouse'"
+                            style="cursor:pointer">
+                                {% if Device.Warehouse.completed == 100 %}
+                                <span class="glyphicon glyphicon-thumbs-up" data-toggle="tooltip" data-placement="top" title="Completed" style="color:green" aria-hidden="true"></span>
+                                {% else%}
+                                {% if Device.Warehouse.Status == "At Risk" %}
+                                <span class="glyphicon glyphicon-exclamation-sign" style="color:orange" aria-hidden="true"></span>
+                                {% elif Device.Warehouse.Status == "Delayed" %}
+                                <span class="glyphicon glyphicon-minus-sign" style="color:red" aria-hidden="true"></span>
+                                {% else %}
+                                <span class="glyphicon glyphicon-ok-circle" style="color:blue" aria-hidden="true"></span>
+                                {% endif %}
+                                {% endif %}
+                            </td>
+							<td align="center" onclick="location.href='/login/summary/{{Device.id}}/fieldservice'"
+                            style="cursor:pointer">
+                                {% if Device.FieldService.completed == 100 %}
+                                <span class="glyphicon glyphicon-thumbs-up" data-toggle="tooltip" data-placement="top" title="Completed" style="color:green" aria-hidden="true"></span>
+                                {% else%}
+                                {% if Device.FieldService.Status == "At Risk" %}
+                                <span class="glyphicon glyphicon-exclamation-sign" style="color:orange" aria-hidden="true"></span>
+                                {% elif Device.FieldService.Status == "Delayed" %}
+                                <span class="glyphicon glyphicon-minus-sign" style="color:red" aria-hidden="true"></span>
+                                {% else %}
+                                <span class="glyphicon glyphicon-ok-circle" style="color:blue" aria-hidden="true"></span>
+                                {% endif %}
+                                {% endif %}
+                            </td>
+                            <td align="center" onclick="location.href='/login/summary/{{Device.id}}/techsupport'"
+                            style="cursor:pointer">
+                                {% if Device.TechSupport.completed == 100 %}
+                                <span class="glyphicon glyphicon-thumbs-up" data-toggle="tooltip" data-placement="top" title="Completed" style="color:green" aria-hidden="true"></span>
+                                {% else%}
+                                {% if Device.TechSupport.Status == "At Risk" %}
+                                <span class="glyphicon glyphicon-exclamation-sign" style="color:orange" aria-hidden="true"></span>
+                                {% elif Device.TechSupport.Status == "Delayed" %}
+                                <span class="glyphicon glyphicon-minus-sign" style="color:red" aria-hidden="true"></span>
+                                {% else %}
+                                <span class="glyphicon glyphicon-ok-circle" style="color:blue" aria-hidden="true"></span>
+                                {% endif %}
+                                {% endif %}
+                            </td>
+                            <td align="center" onclick="location.href='/login/summary/{{Device.id}}/servicemarketing'"
+                            style="cursor:pointer">
+                                {% if Device.ServiceMarketing.completed == 100 %}
+                                <span class="glyphicon glyphicon-thumbs-up" data-toggle="tooltip" data-placement="top" title="Completed" style="color:green" aria-hidden="true"></span>
+                                {% else%}
+                                {% if Device.ServiceMarketing.Status == "At Risk" %}
+                                <span class="glyphicon glyphicon-exclamation-sign" style="color:orange" aria-hidden="true"></span>
+                                {% elif Device.ServiceMarketing.Status == "Delayed" %}
+                                <span class="glyphicon glyphicon-minus-sign" style="color:red" aria-hidden="true"></span>
+                                {% else %}
+                                <span class="glyphicon glyphicon-ok-circle" style="color:blue" aria-hidden="true"></span>
+                                {% endif %}
+                                {% endif %}
+                            </td>
+							<td align="center" onclick="location.href='/login/summary/{{Device.id}}/servicetraining'"
+                            style="cursor:pointer">
+                                {% if Device.ServiceTraining.completed == 100 %}
+                                <span class="glyphicon glyphicon-thumbs-up" data-toggle="tooltip" data-placement="top" title="Completed" style="color:green" aria-hidden="true"></span>
+                                {% else%}
+                                {% if Device.ServiceTraining.Status == "At Risk" %}
+                                <span class="glyphicon glyphicon-exclamation-sign" style="color:orange" aria-hidden="true"></span>
+                                {% elif Device.ServiceTraining.Status == "Delayed" %}
+                                <span class="glyphicon glyphicon-minus-sign" style="color:red" aria-hidden="true"></span>
+                                {% else %}
+                                <span class="glyphicon glyphicon-ok-circle" style="color:blue" aria-hidden="true"></span>
+                                {% endif %}
+                                {% endif %}
+                            </td>
+                            <td align="center" onclick="location.href='/login/summary/{{Device.id}}/parts'"
+                            style="cursor:pointer">
+                                {% if Device.Parts.completed == 100 %}
+                                <span class="glyphicon glyphicon-thumbs-up" data-toggle="tooltip" data-placement="top" title="Completed" style="color:green" aria-hidden="true"></span>
+                                {% else%}
+                                {% if Device.Parts.Status == "At Risk" %}
+                                <span class="glyphicon glyphicon-exclamation-sign" style="color:orange" aria-hidden="true"></span>
+                                {% elif Device.Parts.Status == "Delayed" %}
+                                <span class="glyphicon glyphicon-minus-sign" style="color:red" aria-hidden="true"></span>
+                                {% else %}
+                                <span class="glyphicon glyphicon-ok-circle" style="color:blue" aria-hidden="true"></span>
+                                {% endif %}
+                                {% endif %}
+                            </td>
+						</tr>
+                    {% endif %}
+                    {% endfor%}
+					</tbody>
+				</table>
+ </div>
+ <div class="container-fluid">
+    <table class = "table-bordered table-condensed">
+        <tbody>
+        <tr>
+            <td><span class="glyphicon glyphicon-thumbs-up" data-toggle="tooltip" data-placement="top" title="Completed" style="color:green" aria-hidden="true"></span></td>
+            <td>Completed</td>
+        </tr>
+        <tr>
+            <td><span class="glyphicon glyphicon-ok-circle" style="color:blue" aria-hidden="true"></span></td>
+            <td>On Time</td>
+        </tr>
+        <tr>
+            <td><span class="glyphicon glyphicon-exclamation-sign" style="color:orange" aria-hidden="true"></span></td>
+            <td>At Risk</td>
+        </tr>
+        <tr>
+            <td><span class="glyphicon glyphicon-minus-sign" style="color:red" aria-hidden="true"></span></td>
+            <td>Delayed</td>
+        </tr>
+        </tbody>
+    </table>
+ </div>
+
+{% endblock %}
